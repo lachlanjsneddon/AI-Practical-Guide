@@ -1,0 +1,2343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From Stack to Skill — Understanding the AI Ecosystem and Becoming Fluent Within It</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ===================== SHELL ===================== */
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:#F7F4EF;
+    color:#1A1917;
+    font-family:'Inter',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* ---------- Shared navigation ---------- */
+  .site-nav{
+    position:sticky;top:0;z-index:100;
+    background:rgba(247,244,239,0.92);
+    backdrop-filter:saturate(180%) blur(12px);
+    -webkit-backdrop-filter:saturate(180%) blur(12px);
+    border-bottom:1px solid #DDD7CC;
+  }
+  .site-nav-inner{
+    max-width:820px;margin:0 auto;padding:0 28px;
+    display:flex;align-items:center;gap:28px;
+    min-height:62px;
+  }
+  .site-mark{
+    font-family:'Fraunces',serif;font-weight:600;font-size:17px;
+    letter-spacing:-0.01em;color:#1A1917;text-decoration:none;
+    white-space:nowrap;padding-right:4px;
+  }
+  .site-mark em{font-style:normal;color:#C15F3C;}
+  .nav-links{display:flex;gap:4px;flex:1;overflow-x:auto;scrollbar-width:none;}
+  .nav-links::-webkit-scrollbar{display:none;}
+  .nav-link{
+    display:flex;align-items:baseline;gap:8px;
+    padding:8px 12px;border-radius:4px;
+    text-decoration:none;white-space:nowrap;
+    border-bottom:2px solid transparent;
+    transition:background .18s ease, border-color .18s ease;
+  }
+  .nav-num{
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;
+    letter-spacing:0.14em;color:#C15F3C;
+  }
+  .nav-label{
+    font-family:'Inter',sans-serif;font-size:14.5px;font-weight:500;
+    color:#54504A;
+  }
+  .nav-link:hover{background:rgba(193,95,60,0.07);}
+  .nav-link:hover .nav-label{color:#1A1917;}
+  .nav-link.active{border-bottom-color:#C15F3C;background:rgba(193,95,60,0.06);}
+  .nav-link.active .nav-label{color:#1A1917;font-weight:600;}
+  .nav-link:focus-visible{outline:2px solid #C15F3C;outline-offset:2px;}
+
+  /* ---------- Panes ---------- */
+  .article-pane{display:none;}
+  .article-pane.active{display:block;}
+
+  /* ---------- Series footer ---------- */
+  .series-foot{
+    border-top:1px solid #DDD7CC;
+    background:#FDFBF7;
+  }
+  .series-foot-inner{
+    max-width:820px;margin:0 auto;padding:34px 28px 46px;
+    display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  }
+  .series-step{
+    font-family:'IBM Plex Mono',monospace;font-size:11.5px;
+    letter-spacing:0.14em;text-transform:uppercase;color:#8A857D;
+  }
+  .series-jump{
+    font-family:'Fraunces',serif;font-size:19px;font-weight:500;
+    color:#C15F3C;text-decoration:none;border-bottom:1px solid #E4CDBE;
+  }
+  .series-jump:hover{border-bottom-color:#C15F3C;}
+  .series-foot a.prev{text-align:left;}
+  .series-foot a.next{text-align:right;}
+
+  @media(max-width:640px){
+    .site-nav-inner{gap:14px;padding:0 16px;min-height:56px;}
+    .site-mark{font-size:15px;}
+    .nav-link{padding:7px 9px;gap:6px;}
+    .nav-label{font-size:13.5px;}
+    .series-foot-inner{padding:26px 16px 38px;}
+  }
+
+
+/* ===================== SCOPED ARTICLE STYLES ===================== */
+/* ================= overview ================= */
+
+  #article-overview{
+    --canvas:#F7F4EF;
+    --ink:#1A1917;
+    --ink-soft:#54504A;
+    --ink-faint:#8A857D;
+    --rule:#DDD7CC;
+    --rule-soft:#E8E3D9;
+    --clay:#C15F3C;
+    --clay-soft:#E4CDBE;
+    --panel:#FDFBF7;
+    --accent-ink:#2B2926;
+  }
+  #article-overview *{box-sizing:border-box;}
+  #article-overview{scroll-behavior:smooth;}
+  #article-overview{
+    margin:0;
+    background:var(--canvas);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:18px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  #article-overview .wrap{max-width:820px;margin:0 auto;padding:0 28px;}
+
+  /* ---------- Masthead ---------- */
+  #article-overview header.masthead{
+    padding:88px 0 44px;
+    border-bottom:1px solid var(--rule);
+  }
+  #article-overview .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--clay);
+    margin:0 0 26px;
+  }
+  #article-overview h1{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    font-size:clamp(38px,6.5vw,60px);
+    line-height:1.04;
+    letter-spacing:-0.02em;
+    margin:0 0 24px;
+    max-width:16ch;
+  }
+  #article-overview .standfirst{
+    font-size:20px;
+    line-height:1.55;
+    color:var(--ink-soft);
+    max-width:60ch;
+    margin:0;
+  }
+  #article-overview .byline{
+    margin-top:34px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    letter-spacing:0.04em;
+    color:var(--ink-faint);
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+  }
+  #article-overview .byline span{position:relative;padding-left:18px;}
+  #article-overview .byline span:first-child{padding-left:0;}
+  #article-overview .byline span:not(:first-child)::before{
+    content:"";position:absolute;left:0;top:50%;
+    width:5px;height:5px;border-radius:50%;
+    background:var(--clay-soft);transform:translateY(-50%);
+  }
+
+  /* ---------- Sections ---------- */
+  #article-overview section{padding:60px 0;border-bottom:1px solid var(--rule-soft);}
+  #article-overview .sec-num{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.2em;
+    color:var(--clay);
+    display:block;
+    margin-bottom:14px;
+  }
+  #article-overview h2{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    font-size:clamp(28px,4.4vw,38px);
+    line-height:1.1;
+    letter-spacing:-0.015em;
+    margin:0 0 22px;
+    max-width:22ch;
+  }
+  #article-overview h3{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    font-size:22px;
+    letter-spacing:-0.01em;
+    margin:38px 0 10px;
+  }
+  #article-overview p{margin:0 0 20px;}
+  #article-overview p .lead-in{font-weight:600;color:var(--ink);}
+  #article-overview a{color:var(--clay);text-decoration:none;border-bottom:1px solid var(--clay-soft);}
+
+  #article-overview .pull{
+    font-family:'Fraunces',serif;
+    font-weight:400;
+    font-size:25px;
+    line-height:1.4;
+    color:var(--accent-ink);
+    border-left:2px solid var(--clay);
+    padding:6px 0 6px 26px;
+    margin:34px 0;
+    max-width:40ch;
+  }
+
+  /* ---------- Figures ---------- */
+  #article-overview figure{margin:40px 0;}
+  #article-overview .figframe{
+    background:var(--panel);
+    border:1px solid var(--rule);
+    border-radius:4px;
+    padding:34px 30px 26px;
+  }
+  #article-overview figcaption{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin-top:16px;
+    padding-top:14px;
+    border-top:1px solid var(--rule-soft);
+  }
+  #article-overview figcaption b{color:var(--clay);font-weight:500;}
+  #article-overview svg{display:block;width:100%;height:auto;}
+
+  /* ---------- 4D cards ---------- */
+  #article-overview .d-grid{display:grid;gap:2px;background:var(--rule);border:1px solid var(--rule);border-radius:4px;overflow:hidden;margin:32px 0;}
+  #article-overview .d-card{background:var(--panel);padding:26px 26px 28px;}
+  #article-overview .d-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;}
+  #article-overview .d-letter{
+    font-family:'Fraunces',serif;font-weight:600;font-size:34px;color:var(--clay);line-height:1;
+  }
+  #article-overview .d-name{font-family:'Fraunces',serif;font-weight:500;font-size:23px;letter-spacing:-0.01em;}
+  #article-overview .d-role{font-size:15px;color:var(--ink-faint);margin:2px 0 16px;font-style:italic;}
+  #article-overview .d-card p{font-size:16px;margin-bottom:14px;}
+  #article-overview .d-sub{list-style:none;padding:0;margin:0;}
+  #article-overview .d-sub li{
+    font-size:15px;line-height:1.5;color:var(--ink-soft);
+    padding:9px 0 9px 0;border-top:1px solid var(--rule-soft);
+  }
+  #article-overview .d-sub li b{color:var(--ink);font-weight:600;}
+  #article-overview .d-sub .ex{display:block;color:var(--ink-faint);font-size:13.5px;margin-top:3px;}
+  #article-overview .d-sub .ex::before{content:"e.g. ";font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.05em;color:var(--clay);}
+
+  /* ---------- engagement modes ---------- */
+  #article-overview .modes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:30px 0;}
+  #article-overview .mode{background:var(--panel);border:1px solid var(--rule);border-radius:4px;padding:20px 20px 22px;}
+  #article-overview .mode h4{margin:0 0 8px;font-family:'Fraunces',serif;font-weight:500;font-size:18px;}
+  #article-overview .mode p{font-size:14.5px;line-height:1.5;color:var(--ink-soft);margin:0;}
+  #article-overview .mode .tag{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--clay);display:block;margin-bottom:10px;}
+
+  /* ---------- application rows ---------- */
+  #article-overview .app{
+    display:grid;grid-template-columns:auto 1fr;gap:24px;
+    padding:26px 0;border-top:1px solid var(--rule-soft);
+  }
+  #article-overview .app:first-of-type{border-top:1px solid var(--rule);}
+  #article-overview .app-mark{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--clay);
+    letter-spacing:0.1em;padding-top:4px;white-space:nowrap;
+  }
+  #article-overview .app h3{margin:0 0 6px;font-size:20px;}
+  #article-overview .app p{font-size:16px;margin:0 0 10px;color:var(--ink-soft);}
+  #article-overview .app .benefit{
+    font-size:14.5px;color:var(--ink);background:rgba(193,95,60,0.06);
+    border-left:2px solid var(--clay-soft);padding:8px 14px;border-radius:0 3px 3px 0;
+  }
+  #article-overview .app .benefit b{color:var(--clay);font-weight:600;}
+
+  /* ---------- closing ---------- */
+  #article-overview .closer{padding:64px 0 96px;}
+  #article-overview .closer .kicker{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--clay);margin-bottom:18px;}
+  #article-overview .closer p{font-size:19px;color:var(--ink-soft);}
+
+  #article-overview .footnote{
+    font-size:13px;color:var(--ink-faint);line-height:1.55;
+    border-top:1px solid var(--rule);padding-top:22px;margin-top:10px;
+  }
+
+  /* ---------- interactive cake ---------- */
+  #article-overview .cake{padding:30px 26px 22px;}
+  #article-overview .cake-hint{
+    font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.06em;
+    color:var(--ink-faint);text-align:center;margin:0 0 20px;
+  }
+  #article-overview .cake-stack{display:flex;flex-direction:column;gap:8px;max-width:560px;margin:0 auto;}
+  #article-overview .layer{
+    all:unset;box-sizing:border-box;cursor:pointer;
+    display:flex;align-items:center;justify-content:space-between;
+    background:var(--panel);border:1px solid var(--rule);border-radius:5px;
+    padding:15px 20px;transition:border-color .18s ease, background .18s ease, transform .18s ease;
+    width:100%;
+  }
+  /* trunk taper — each higher layer slightly narrower, like a tree */
+  #article-overview .layer[data-layer="energy"]{width:100%;}
+  #article-overview .layer[data-layer="chips"]{width:94%;margin:0 auto;}
+  #article-overview .layer[data-layer="infra"]{width:88%;margin:0 auto;}
+  #article-overview .layer[data-layer="models"]{width:82%;margin:0 auto;}
+  #article-overview .layer-top{width:76%;margin:0 auto;background:#F6E4DB;border-color:var(--clay);}
+  #article-overview .layer:hover{border-color:var(--clay);transform:translateY(-1px);}
+  #article-overview .layer:focus-visible{outline:2px solid var(--clay);outline-offset:2px;}
+  #article-overview .layer.open{border-color:var(--clay);background:#FBF1EA;}
+  #article-overview .layer-top.open{background:#F1D9CB;}
+  #article-overview .layer-face{display:flex;flex-direction:column;gap:1px;text-align:left;}
+  #article-overview .layer-meta{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--clay);}
+  #article-overview .layer-name{font-family:'Fraunces',serif;font-weight:500;font-size:21px;letter-spacing:-0.01em;color:var(--ink);line-height:1.1;}
+  #article-overview .layer-note{font-size:13px;color:var(--ink-faint);}
+  #article-overview .layer-chev{font-family:'Fraunces',serif;font-size:24px;color:var(--clay);line-height:1;transition:transform .2s ease;font-weight:400;}
+  #article-overview .layer.open .layer-chev{transform:rotate(45deg);}
+
+  #article-overview .layer-detail{
+    max-width:560px;margin:0 auto;overflow:hidden;height:0;
+    transition:height .28s ease;
+  }
+  #article-overview .layer-detail-inner{
+    background:var(--canvas);border:1px solid var(--rule-soft);border-radius:5px;
+    padding:20px 22px 22px;margin:4px 0 6px;
+  }
+  #article-overview .ld-desc{font-size:14.5px;color:var(--ink-soft);line-height:1.5;margin:0 0 16px;padding-bottom:14px;border-bottom:1px solid var(--rule);}
+  #article-overview .ld-cols{display:block;}
+  #article-overview .ld-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:4px 24px;}
+  #article-overview .ld-list li{font-size:14px;line-height:1.4;color:var(--ink);padding:5px 0;}
+  #article-overview .ld-list li b{font-weight:600;}
+  #article-overview .ld-list li span{display:block;font-size:12px;color:var(--ink-faint);}
+
+  @media(max-width:640px){
+    #article-overview{font-size:17px;}
+    #article-overview .modes{grid-template-columns:1fr;}
+    #article-overview .app{grid-template-columns:1fr;gap:6px;}
+    #article-overview header.masthead{padding:56px 0 36px;}
+    #article-overview .layer, #article-overview .layer[data-layer]{width:100% !important;}
+    #article-overview .ld-list{grid-template-columns:1fr;gap:0;}
+    #article-overview .layer-name{font-size:19px;}
+  }
+
+
+/* ================= fluency ================= */
+
+  #article-fluency{
+    --canvas:#F7F4EF;
+    --ink:#1A1917;
+    --ink-soft:#54504A;
+    --ink-faint:#8A857D;
+    --rule:#DDD7CC;
+    --rule-soft:#E8E3D9;
+    --clay:#C15F3C;
+    --clay-soft:#E4CDBE;
+    --panel:#FDFBF7;
+    --accent-ink:#2B2926;
+    --moss:#5C6B4A;      /* second accent — a cool counterpoint to clay, used only for the "handoff" logic */
+    --moss-soft:#D9DFCB;
+  }
+  #article-fluency *{box-sizing:border-box;}
+  #article-fluency{scroll-behavior:smooth;}
+  #article-fluency{
+    margin:0;
+    background:var(--canvas);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:18px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  #article-fluency .wrap{max-width:820px;margin:0 auto;padding:0 28px;}
+
+  /* ---------- Masthead ---------- */
+  #article-fluency header.masthead{
+    padding:88px 0 44px;
+    border-bottom:1px solid var(--rule);
+  }
+  #article-fluency .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--clay);
+    margin:0 0 26px;
+  }
+  #article-fluency .eyebrow .part2{color:var(--moss);}
+  #article-fluency h1{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    font-size:clamp(38px,6.5vw,60px);
+    line-height:1.04;
+    letter-spacing:-0.02em;
+    margin:0 0 24px;
+    max-width:17ch;
+  }
+  #article-fluency .standfirst{
+    font-size:20px;
+    line-height:1.55;
+    color:var(--ink-soft);
+    max-width:60ch;
+    margin:0;
+  }
+  #article-fluency .continues{
+    margin-top:22px;font-family:'IBM Plex Mono',monospace;font-size:12px;
+    letter-spacing:0.04em;color:var(--ink-faint);
+    background:var(--panel);border:1px solid var(--rule);border-radius:4px;
+    padding:10px 16px;display:inline-block;
+  }
+  #article-fluency .continues b{color:var(--clay);font-weight:500;}
+  #article-fluency .byline{
+    margin-top:28px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    letter-spacing:0.04em;
+    color:var(--ink-faint);
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+  }
+  #article-fluency .byline span{position:relative;padding-left:18px;}
+  #article-fluency .byline span:first-child{padding-left:0;}
+  #article-fluency .byline span:not(:first-child)::before{
+    content:"";position:absolute;left:0;top:50%;
+    width:5px;height:5px;border-radius:50%;
+    background:var(--clay-soft);transform:translateY(-50%);
+  }
+
+  /* ---------- The relay spine (signature nav) ---------- */
+  #article-fluency .spine{
+    position:sticky;top:0;z-index:20;background:rgba(247,244,239,0.93);
+    backdrop-filter:blur(6px);border-bottom:1px solid var(--rule);
+    padding:12px 0;margin-bottom:0;
+  }
+  #article-fluency .spine-inner{max-width:820px;margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:0;flex-wrap:wrap;}
+  #article-fluency .spine-step{display:flex;align-items:center;gap:10px;flex:1;min-width:0;}
+  #article-fluency .spine-link{
+    all:unset;cursor:pointer;display:flex;align-items:center;gap:9px;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;
+    text-transform:uppercase;color:var(--ink-faint);white-space:nowrap;
+    padding:4px 2px;transition:color .16s ease;
+  }
+  #article-fluency .spine-link:hover, #article-fluency .spine-link:focus-visible{color:var(--clay);}
+  #article-fluency .spine-link .dot{width:8px;height:8px;border-radius:50%;background:var(--clay-soft);flex:none;transition:background .16s ease,transform .16s ease;}
+  #article-fluency .spine-link:hover .dot{background:var(--clay);}
+  #article-fluency .spine-arrow{color:var(--moss);font-size:14px;flex:none;padding:0 6px;}
+  #article-fluency .spine-arrow:last-child{display:none;}
+  @media(max-width:640px){
+    #article-fluency .spine{display:none;}
+  }
+
+  /* ---------- Sections ---------- */
+  #article-fluency section{padding:64px 0;border-bottom:1px solid var(--rule-soft);scroll-margin-top:60px;}
+  #article-fluency .sec-num{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.2em;
+    color:var(--clay);
+    display:block;
+    margin-bottom:14px;
+  }
+  #article-fluency h2{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    font-size:clamp(28px,4.4vw,38px);
+    line-height:1.1;
+    letter-spacing:-0.015em;
+    margin:0 0 22px;
+    max-width:24ch;
+  }
+  #article-fluency h3{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    font-size:22px;
+    letter-spacing:-0.01em;
+    margin:38px 0 10px;
+  }
+  #article-fluency p{margin:0 0 20px;}
+  #article-fluency p .lead-in{font-weight:600;color:var(--ink);}
+  #article-fluency a{color:var(--clay);text-decoration:none;border-bottom:1px solid var(--clay-soft);}
+
+  #article-fluency .pull{
+    font-family:'Fraunces',serif;
+    font-weight:400;
+    font-size:25px;
+    line-height:1.4;
+    color:var(--accent-ink);
+    border-left:2px solid var(--clay);
+    padding:6px 0 6px 26px;
+    margin:34px 0;
+    max-width:42ch;
+  }
+
+  /* ---------- handoff banner: the connective tissue ---------- */
+  #article-fluency .handoff{
+    display:flex;align-items:stretch;gap:0;margin:30px 0 6px;
+    border:1px solid var(--rule);border-radius:5px;overflow:hidden;background:var(--panel);
+  }
+  #article-fluency .handoff-in, #article-fluency .handoff-out{flex:1;padding:14px 18px;}
+  #article-fluency .handoff-in{background:var(--moss-soft);}
+  #article-fluency .handoff-mid{width:44px;flex:none;display:flex;align-items:center;justify-content:center;background:var(--panel);border-left:1px solid var(--rule);border-right:1px solid var(--rule);color:var(--moss);font-size:20px;}
+  #article-fluency .handoff .lab{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--moss);display:block;margin-bottom:4px;}
+  #article-fluency .handoff-out .lab{color:var(--clay);}
+  #article-fluency .handoff .val{font-size:14.5px;color:var(--ink);line-height:1.4;}
+  #article-fluency .handoff-out{background:rgba(193,95,60,0.06);}
+  @media(max-width:640px){#article-fluency .handoff{flex-direction:column;}#article-fluency .handoff-mid{width:100%;height:36px;transform:rotate(90deg);}}
+
+  #article-fluency figure{margin:40px 0;}
+  #article-fluency .figframe{
+    background:var(--panel);
+    border:1px solid var(--rule);
+    border-radius:4px;
+    padding:30px 28px 24px;
+  }
+  #article-fluency figcaption{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin-top:16px;
+    padding-top:14px;
+    border-top:1px solid var(--rule-soft);
+  }
+  #article-fluency figcaption b{color:var(--clay);font-weight:500;}
+  #article-fluency svg{display:block;width:100%;height:auto;}
+
+  /* ---------- INTERACTIVE: the routing engine ---------- */
+  #article-fluency .router{padding:28px 26px 26px;}
+  #article-fluency .router-hint{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.06em;color:var(--ink-faint);text-align:center;margin:0 0 22px;}
+  #article-fluency .router-q{margin-bottom:20px;}
+  #article-fluency .router-q > .ql{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--clay);display:block;margin-bottom:10px;}
+  #article-fluency .chips{display:flex;gap:8px;flex-wrap:wrap;}
+  #article-fluency .chip{
+    all:unset;cursor:pointer;font-size:14px;font-weight:500;
+    padding:9px 16px;border:1px solid var(--rule);border-radius:40px;background:var(--canvas);
+    color:var(--ink-soft);transition:all .15s ease;line-height:1;
+  }
+  #article-fluency .chip:hover{border-color:var(--clay);color:var(--ink);}
+  #article-fluency .chip:focus-visible{outline:2px solid var(--clay);outline-offset:2px;}
+  #article-fluency .chip.on{background:var(--clay);border-color:var(--clay);color:#fff;}
+  #article-fluency .router-out{
+    margin-top:26px;border-top:1px solid var(--rule);padding-top:22px;
+    display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--rule);
+    border:1px solid var(--rule);border-radius:5px;overflow:hidden;
+  }
+  #article-fluency .ro-cell{background:var(--panel);padding:16px 15px 18px;min-height:130px;}
+  #article-fluency .ro-cell .roD{font-family:'Fraunces',serif;font-weight:600;font-size:15px;color:var(--clay);display:flex;align-items:center;gap:7px;margin-bottom:9px;}
+  #article-fluency .ro-cell .roD .n{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.1em;color:var(--ink-faint);border:1px solid var(--rule);border-radius:3px;padding:2px 5px;text-transform:uppercase;}
+  #article-fluency .ro-cell .roVal{font-size:13.5px;line-height:1.45;color:var(--ink);}
+  #article-fluency .ro-cell .roVal strong{color:var(--ink);font-weight:600;}
+  #article-fluency .ro-cell.muted .roVal{color:var(--ink-faint);}
+  #article-fluency .ro-empty{grid-column:1/-1;background:var(--panel);padding:26px;text-align:center;color:var(--ink-faint);font-size:14px;}
+  @media(max-width:720px){#article-fluency .router-out{grid-template-columns:1fr 1fr;}}
+  @media(max-width:440px){#article-fluency .router-out{grid-template-columns:1fr;}}
+
+  /* ---------- generic framework tables / grids ---------- */
+  #article-fluency .fw{border:1px solid var(--rule);border-radius:5px;overflow:hidden;margin:30px 0;}
+  #article-fluency .fw-row{display:grid;grid-template-columns:180px 1fr;border-top:1px solid var(--rule-soft);}
+  #article-fluency .fw-row:first-child{border-top:none;}
+  #article-fluency .fw-key{background:var(--panel);padding:18px 20px;border-right:1px solid var(--rule-soft);}
+  #article-fluency .fw-key .kt{font-family:'Fraunces',serif;font-weight:500;font-size:18px;line-height:1.15;}
+  #article-fluency .fw-key .ks{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--clay);display:block;margin-bottom:6px;}
+  #article-fluency .fw-val{padding:18px 22px;background:var(--canvas);}
+  #article-fluency .fw-val p{font-size:15px;margin:0 0 8px;color:var(--ink-soft);}
+  #article-fluency .fw-val p:last-child{margin:0;}
+  #article-fluency .fw-val .ex{font-size:13px;color:var(--ink-faint);}
+  #article-fluency .fw-val .ex::before{content:"→ ";color:var(--clay);}
+  @media(max-width:640px){#article-fluency .fw-row{grid-template-columns:1fr;}#article-fluency .fw-key{border-right:none;border-bottom:1px solid var(--rule-soft);}}
+
+  /* ---------- risk ladder (diligence) ---------- */
+  #article-fluency .ladder{margin:30px 0;display:flex;flex-direction:column;gap:0;border:1px solid var(--rule);border-radius:5px;overflow:hidden;}
+  #article-fluency .rung{display:grid;grid-template-columns:76px 1fr;border-top:1px solid var(--rule-soft);}
+  #article-fluency .rung:first-child{border-top:none;}
+  #article-fluency .rung-band{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 8px;color:#fff;text-align:center;}
+  #article-fluency .rung-band .lv{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;opacity:.85;}
+  #article-fluency .rung-band .lvn{font-family:'Fraunces',serif;font-weight:600;font-size:26px;line-height:1;}
+  #article-fluency .rung-body{padding:16px 20px;background:var(--panel);}
+  #article-fluency .rung-body h4{margin:0 0 4px;font-family:'Fraunces',serif;font-weight:500;font-size:17px;}
+  #article-fluency .rung-body .who{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.04em;color:var(--ink-faint);margin-bottom:8px;}
+  #article-fluency .rung-body p{font-size:14px;margin:0;color:var(--ink-soft);line-height:1.5;}
+  #article-fluency .rung-body .gate{font-size:13.5px;color:var(--ink);margin-top:8px;padding-top:8px;border-top:1px dashed var(--rule);}
+  #article-fluency .rung-body .gate b{color:var(--clay);}
+  #article-fluency .lv1{background:#7C8A66;}
+  #article-fluency .lv2{background:#B08A4F;}
+  #article-fluency .lv3{background:#C15F3C;}
+  #article-fluency .lv4{background:#9A3B28;}
+  @media(max-width:640px){#article-fluency .rung{grid-template-columns:60px 1fr;}}
+
+  /* ---------- worked example strip ---------- */
+  #article-fluency .worked{background:var(--panel);border:1px solid var(--rule);border-radius:5px;padding:26px 26px 24px;margin:34px 0;}
+  #article-fluency .worked .wl{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--moss);margin:0 0 6px;}
+  #article-fluency .worked .wtask{font-family:'Fraunces',serif;font-size:20px;font-weight:500;margin:0 0 20px;color:var(--ink);}
+  #article-fluency .worked-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  #article-fluency .wcard{background:var(--canvas);border:1px solid var(--rule-soft);border-radius:4px;padding:14px 14px 15px;position:relative;}
+  #article-fluency .wcard .wd{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--clay);margin-bottom:7px;}
+  #article-fluency .wcard p{font-size:13px;margin:0;color:var(--ink-soft);line-height:1.45;}
+  #article-fluency .wcard p b{color:var(--ink);font-weight:600;}
+  @media(max-width:640px){#article-fluency .worked-flow{grid-template-columns:1fr;}}
+
+  /* ---------- closing ---------- */
+  #article-fluency .closer{padding:64px 0 96px;}
+  #article-fluency .closer .kicker{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--clay);margin-bottom:18px;}
+  #article-fluency .closer p{font-size:19px;color:var(--ink-soft);}
+  #article-fluency .footnote{
+    font-size:13px;color:var(--ink-faint);line-height:1.55;
+    border-top:1px solid var(--rule);padding-top:22px;margin-top:30px;
+  }
+
+  /* ---------- surface selector (delegation, stage 2) ---------- */
+  #article-fluency .surfaces{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--rule);border:1px solid var(--rule);border-radius:5px;overflow:hidden;margin:30px 0 6px;}
+  #article-fluency .surf{background:var(--panel);padding:20px 18px 22px;}
+  #article-fluency .surf .st{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--moss);display:block;margin-bottom:8px;}
+  #article-fluency .surf h4{margin:0 0 4px;font-family:'Fraunces',serif;font-weight:500;font-size:19px;letter-spacing:-0.01em;}
+  #article-fluency .surf .shape{font-size:13px;color:var(--ink-faint);font-style:italic;margin:0 0 12px;}
+  #article-fluency .surf p{font-size:13.5px;line-height:1.45;color:var(--ink-soft);margin:0 0 10px;}
+  #article-fluency .surf .pick{font-size:12.5px;color:var(--ink);border-top:1px solid var(--rule-soft);padding-top:9px;}
+  #article-fluency .surf .pick b{color:var(--clay);font-weight:600;}
+  #article-fluency .surf .tool{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.02em;color:var(--moss);display:block;margin-top:8px;}
+  @media(max-width:820px){#article-fluency .surfaces{grid-template-columns:1fr 1fr;}}
+  @media(max-width:440px){#article-fluency .surfaces{grid-template-columns:1fr;}}
+
+  /* router: surface callout row */
+  #article-fluency .ro-surface{grid-column:1/-1;background:var(--moss-soft);padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:2px solid var(--moss);}
+  #article-fluency .ro-surface .rsl{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--moss);white-space:nowrap;}
+  #article-fluency .ro-surface .rsv{font-size:14px;color:var(--ink);line-height:1.4;}
+  #article-fluency .ro-surface .rsv b{font-family:'Fraunces',serif;font-weight:600;color:var(--accent-ink);}
+  @media(max-width:520px){#article-fluency .ro-surface{flex-direction:column;align-items:flex-start;gap:5px;}}
+
+  @media(max-width:640px){
+    #article-fluency{font-size:17px;}
+    #article-fluency header.masthead{padding:56px 0 36px;}
+    #article-fluency .worked-flow, #article-fluency .router-out{gap:10px;}
+  }
+
+
+/* ================= application ================= */
+
+  #article-application{
+    --canvas:#F7F4EF;
+    --ink:#1A1917;
+    --ink-soft:#54504A;
+    --ink-faint:#8A857D;
+    --rule:#DDD7CC;
+    --rule-soft:#E8E3D9;
+    --clay:#C15F3C;
+    --clay-soft:#E4CDBE;
+    --moss:#6B7A5A;
+    --moss-soft:#D6DCCC;
+    --panel:#FDFBF7;
+    --accent-ink:#2B2926;
+  }
+  #article-application *{box-sizing:border-box;}
+  #article-application{scroll-behavior:smooth;}
+  #article-application{
+    margin:0;
+    background:var(--canvas);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:18px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  #article-application .wrap{max-width:820px;margin:0 auto;padding:0 28px;}
+
+  /* ---------- Masthead ---------- */
+  #article-application header.masthead{
+    padding:88px 0 44px;
+    border-bottom:1px solid var(--rule);
+  }
+  #article-application .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--clay);
+    margin:0 0 26px;
+  }
+  #article-application h1{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    font-size:clamp(38px,6.5vw,60px);
+    line-height:1.04;
+    letter-spacing:-0.02em;
+    margin:0 0 24px;
+    max-width:16ch;
+  }
+  #article-application .standfirst{
+    font-size:20px;
+    line-height:1.55;
+    color:var(--ink-soft);
+    max-width:60ch;
+    margin:0;
+  }
+  #article-application .byline{
+    margin-top:34px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    letter-spacing:0.04em;
+    color:var(--ink-faint);
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+  }
+  #article-application .byline span{position:relative;padding-left:18px;}
+  #article-application .byline span:first-child{padding-left:0;}
+  #article-application .byline span:not(:first-child)::before{
+    content:"";position:absolute;left:0;top:50%;
+    width:5px;height:5px;border-radius:50%;
+    background:var(--clay-soft);transform:translateY(-50%);
+  }
+
+  /* ---------- Series strip ---------- */
+  #article-application .series{
+    display:flex;gap:0;margin:30px 0 0;
+    border:1px solid var(--rule);border-radius:4px;overflow:hidden;
+  }
+  #article-application .series-item{
+    flex:1;padding:13px 16px;background:var(--panel);
+    border-right:1px solid var(--rule);
+  }
+  #article-application .series-item:last-child{border-right:none;}
+  #article-application .series-item.now{background:#F6E4DB;}
+  #article-application .series-n{
+    font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.14em;
+    text-transform:uppercase;color:var(--clay);display:block;margin-bottom:3px;
+  }
+  #article-application .series-t{font-size:14px;font-weight:600;line-height:1.25;display:block;}
+  #article-application .series-d{font-size:12.5px;color:var(--ink-faint);line-height:1.3;display:block;margin-top:2px;}
+
+  /* ---------- Sections ---------- */
+  #article-application section{padding:60px 0;border-bottom:1px solid var(--rule-soft);}
+  #article-application .sec-num{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.2em;
+    color:var(--clay);
+    display:block;
+    margin-bottom:14px;
+  }
+  #article-application h2{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    font-size:clamp(28px,4.4vw,38px);
+    line-height:1.1;
+    letter-spacing:-0.015em;
+    margin:0 0 22px;
+    max-width:22ch;
+  }
+  #article-application h3{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    font-size:22px;
+    letter-spacing:-0.01em;
+    margin:38px 0 10px;
+  }
+  #article-application p{margin:0 0 20px;}
+  #article-application p .lead-in{font-weight:600;color:var(--ink);}
+  #article-application a{color:var(--clay);text-decoration:none;border-bottom:1px solid var(--clay-soft);}
+
+  #article-application .pull{
+    font-family:'Fraunces',serif;
+    font-weight:400;
+    font-size:25px;
+    line-height:1.4;
+    color:var(--accent-ink);
+    border-left:2px solid var(--clay);
+    padding:6px 0 6px 26px;
+    margin:34px 0;
+    max-width:40ch;
+  }
+
+  /* ---------- Figures ---------- */
+  #article-application figure{margin:40px 0;}
+  #article-application .figframe{
+    background:var(--panel);
+    border:1px solid var(--rule);
+    border-radius:4px;
+    padding:34px 30px 26px;
+  }
+  #article-application figcaption{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin-top:16px;
+    padding-top:14px;
+    border-top:1px solid var(--rule-soft);
+  }
+  #article-application figcaption b{color:var(--clay);font-weight:500;}
+  #article-application svg{display:block;width:100%;height:auto;}
+
+  /* ---------- Surface cards ---------- */
+  #article-application .s-grid{display:grid;gap:2px;background:var(--rule);border:1px solid var(--rule);border-radius:4px;overflow:hidden;margin:32px 0;}
+  #article-application .s-card{background:var(--panel);padding:26px 26px 28px;}
+  #article-application .s-head{display:flex;align-items:baseline;gap:14px;margin-bottom:4px;flex-wrap:wrap;}
+  #article-application .s-shape{
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;
+    text-transform:uppercase;color:var(--moss);
+  }
+  #article-application .s-name{font-family:'Fraunces',serif;font-weight:500;font-size:24px;letter-spacing:-0.01em;}
+  #article-application .s-tool{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.06em;
+    color:var(--clay);border:1px solid var(--clay-soft);border-radius:3px;
+    padding:2px 8px;
+  }
+  #article-application .s-role{font-size:15px;color:var(--ink-faint);margin:6px 0 16px;font-style:italic;}
+  #article-application .s-card p{font-size:16px;margin-bottom:16px;}
+  #article-application .s-meta{list-style:none;padding:0;margin:0;}
+  #article-application .s-meta li{
+    font-size:15px;line-height:1.5;color:var(--ink-soft);
+    padding:10px 0;border-top:1px solid var(--rule-soft);
+    display:grid;grid-template-columns:112px 1fr;gap:14px;
+  }
+  #article-application .s-meta .k{
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;
+    text-transform:uppercase;color:var(--ink-faint);padding-top:4px;
+  }
+  #article-application .s-meta b{color:var(--ink);font-weight:600;}
+  #article-application .s-scen{
+    margin-top:16px;font-size:14.5px;color:var(--ink);
+    background:rgba(107,122,90,0.07);
+    border-left:2px solid var(--moss-soft);padding:11px 15px;border-radius:0 3px 3px 0;
+  }
+  #article-application .s-scen b{color:var(--moss);font-weight:600;}
+
+  /* ---------- misread table ---------- */
+  #article-application .mis{border:1px solid var(--rule);border-radius:4px;overflow:hidden;margin:30px 0;}
+  #article-application .mis-row{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--rule-soft);}
+  #article-application .mis-row:first-child{border-top:none;}
+  #article-application .mis-h{background:var(--panel);font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-faint);}
+  #article-application .mis-cell{padding:14px 18px;font-size:15px;line-height:1.5;background:var(--panel);}
+  #article-application .mis-cell + .mis-cell{border-left:1px solid var(--rule-soft);}
+  #article-application .mis-cell.bad{color:var(--ink-soft);}
+  #article-application .mis-cell.good b{color:var(--moss);font-weight:600;}
+
+  /* ---------- application rows ---------- */
+  #article-application .app{
+    display:grid;grid-template-columns:auto 1fr;gap:24px;
+    padding:26px 0;border-top:1px solid var(--rule-soft);
+  }
+  #article-application .app:first-of-type{border-top:1px solid var(--rule);}
+  #article-application .app-mark{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--clay);
+    letter-spacing:0.1em;padding-top:4px;white-space:nowrap;
+  }
+  #article-application .app h3{margin:0 0 6px;font-size:20px;}
+  #article-application .app p{font-size:16px;margin:0 0 10px;color:var(--ink-soft);}
+  #article-application .app .benefit{
+    font-size:14.5px;color:var(--ink);background:rgba(193,95,60,0.06);
+    border-left:2px solid var(--clay-soft);padding:8px 14px;border-radius:0 3px 3px 0;
+  }
+  #article-application .app .benefit b{color:var(--clay);font-weight:600;}
+
+  /* ---------- closing ---------- */
+  #article-application .closer{padding:64px 0 96px;}
+  #article-application .closer .kicker{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--clay);margin-bottom:18px;}
+  #article-application .closer p{font-size:19px;color:var(--ink-soft);}
+
+  #article-application .footnote{
+    font-size:13px;color:var(--ink-faint);line-height:1.55;
+    border-top:1px solid var(--rule);padding-top:22px;margin-top:10px;
+  }
+
+  /* ---------- interactive router ---------- */
+  #article-application .router{padding:30px 26px 26px;}
+  #article-application .router-hint{
+    font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.06em;
+    color:var(--ink-faint);text-align:center;margin:0 0 22px;
+  }
+  #article-application .q{max-width:600px;margin:0 auto 20px;}
+  #article-application .q-label{
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.13em;
+    text-transform:uppercase;color:var(--clay);display:block;margin-bottom:9px;
+  }
+  #article-application .opts{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;}
+  #article-application .opts.two{grid-template-columns:repeat(2,1fr);}
+  #article-application .opt{
+    all:unset;box-sizing:border-box;cursor:pointer;text-align:center;
+    background:var(--canvas);border:1px solid var(--rule);border-radius:4px;
+    padding:11px 8px;font-size:14px;line-height:1.3;color:var(--ink-soft);
+    transition:border-color .16s ease,background .16s ease,color .16s ease;
+  }
+  #article-application .opt:hover{border-color:var(--clay);}
+  #article-application .opt:focus-visible{outline:2px solid var(--clay);outline-offset:2px;}
+  #article-application .opt.on{background:#F6E4DB;border-color:var(--clay);color:var(--ink);font-weight:600;}
+  #article-application .opt small{display:block;font-size:11.5px;color:var(--ink-faint);font-weight:400;margin-top:2px;}
+  #article-application .opt.on small{color:var(--clay);}
+
+  #article-application .verdict{
+    max-width:600px;margin:24px auto 0;background:var(--canvas);
+    border:1px solid var(--rule-soft);border-radius:5px;padding:20px 22px;
+  }
+  #article-application .verdict-lead{
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.13em;
+    text-transform:uppercase;color:var(--moss);margin:0 0 8px;
+  }
+  #article-application .verdict-surface{
+    font-family:'Fraunces',serif;font-weight:500;font-size:26px;letter-spacing:-0.01em;
+    margin:0 0 8px;color:var(--ink);line-height:1.15;
+  }
+  #article-application .verdict-why{font-size:15px;color:var(--ink-soft);margin:0 0 14px;line-height:1.5;}
+  #article-application .verdict-because{
+    font-size:13.5px;color:var(--ink-faint);border-top:1px solid var(--rule);
+    padding-top:12px;margin:0;
+  }
+  #article-application .verdict-because b{color:var(--moss);font-weight:600;}
+  #article-application .verdict.idle .verdict-surface{color:var(--ink-faint);font-style:italic;font-size:20px;}
+
+  @media(max-width:640px){
+    #article-application{font-size:17px;}
+    #article-application .app{grid-template-columns:1fr;gap:6px;}
+    #article-application header.masthead{padding:56px 0 36px;}
+    #article-application .series{flex-direction:column;}
+    #article-application .series-item{border-right:none;border-bottom:1px solid var(--rule);}
+    #article-application .series-item:last-child{border-bottom:none;}
+    #article-application .opts, #article-application .opts.two{grid-template-columns:1fr;}
+    #article-application .s-meta li{grid-template-columns:1fr;gap:2px;}
+    #article-application .s-meta .k{padding-top:0;}
+    #article-application .mis-row{grid-template-columns:1fr;}
+    #article-application .mis-cell + .mis-cell{border-left:none;border-top:1px solid var(--rule-soft);}
+  }
+
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a class="site-mark" href="#overview">AI <em>Fluency</em></a>
+    <div class="nav-links">
+      <a class="nav-link" href="#overview" data-target="overview"><span class="nav-num">01</span><span class="nav-label">The Ecosystem</span></a>
+      <a class="nav-link" href="#fluency" data-target="fluency"><span class="nav-num">02</span><span class="nav-label">The Fluency</span></a>
+      <a class="nav-link" href="#application" data-target="application"><span class="nav-num">03</span><span class="nav-label">The Application</span></a>
+    </div>
+  </div>
+</nav>
+
+<article class="article-pane" id="article-overview" data-article="overview">
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">A Practical Guide</p>
+    <h1>From Stack to Skill</h1>
+    <p class="standfirst">Everyone is talking about AI, but few can place it. This guide maps the ecosystem you are building on, then turns to the more useful question: what does it take to work well within it?</p>
+    <div class="byline">
+      <span>Three parts</span>
+      <span>~12 min read</span>
+      <span>Ecosystem · Fluency · Application</span>
+    </div>
+  </header>
+
+  <!-- ============ PART 1 ============ -->
+  <section id="overview-ecosystem">
+    <span class="sec-num">01 — The Landscape</span>
+    <h2>The five-layer cake: where the value actually sits</h2>
+
+    <p>It is tempting to think of AI as the chatbot on your screen. Jensen Huang, NVIDIA's chief executive, argues that this is like mistaking the icing for the cake. In his framing, AI is a <span class="lead-in">five-layer stack</span>, and each layer rests on the one beneath it — energy, chips, infrastructure, models, and, at the very top, applications.</p>
+
+    <p>The lower four layers are the largest industrial buildout in modern history: power stations, semiconductor fabs, data centres and the software that lets thousands of chips act as one. But Huang is emphatic about where the economic return lands. The value, he says, is realised at the top — in the applications people actually use, whether in financial services, healthcare or manufacturing.</p>
+
+    <figure>
+      <div class="figframe cake" id="overview-cake">
+        <p class="cake-hint">Tap a layer to see who's building it.</p>
+        <div class="cake-stack" role="list">
+
+          <button class="layer layer-top" data-layer="apps" role="listitem" aria-expanded="false">
+            <span class="layer-face">
+              <span class="layer-meta">Layer 5 · the canopy</span>
+              <span class="layer-name">Applications</span>
+              <span class="layer-note">What people actually use</span>
+            </span>
+            <span class="layer-chev" aria-hidden="true">+</span>
+          </button>
+
+          <button class="layer" data-layer="models" role="listitem" aria-expanded="false">
+            <span class="layer-face">
+              <span class="layer-meta">Layer 4</span>
+              <span class="layer-name">Models</span>
+              <span class="layer-note">The reasoning engines</span>
+            </span>
+            <span class="layer-chev" aria-hidden="true">+</span>
+          </button>
+
+          <button class="layer" data-layer="infra" role="listitem" aria-expanded="false">
+            <span class="layer-face">
+              <span class="layer-meta">Layer 3</span>
+              <span class="layer-name">Infrastructure</span>
+              <span class="layer-note">Data centres &amp; cloud</span>
+            </span>
+            <span class="layer-chev" aria-hidden="true">+</span>
+          </button>
+
+          <button class="layer" data-layer="chips" role="listitem" aria-expanded="false">
+            <span class="layer-face">
+              <span class="layer-meta">Layer 2</span>
+              <span class="layer-name">Chips</span>
+              <span class="layer-note">GPUs &amp; accelerators</span>
+            </span>
+            <span class="layer-chev" aria-hidden="true">+</span>
+          </button>
+
+          <button class="layer" data-layer="energy" role="listitem" aria-expanded="false">
+            <span class="layer-face">
+              <span class="layer-meta">Layer 1 · the roots</span>
+              <span class="layer-name">Energy</span>
+              <span class="layer-note">Power, grid &amp; cooling</span>
+            </span>
+            <span class="layer-chev" aria-hidden="true">+</span>
+          </button>
+
+        </div>
+        <div class="cake-base">Foundation <span>↑</span> value realised at the canopy</div>
+      </div>
+      <figcaption>Figure 1 — The stack as a tree. Four foundation layers form the trunk; the <b>application layer</b> is where it branches into everything people use. <b>Interactive — tap any layer.</b></figcaption>
+    </figure>
+
+    <p>Because the application layer is where value is monetised, it is also where <span class="lead-in">you</span> operate. Almost no one plants the tree — the roots and trunk are built by a handful of companies with enormous capital. But nearly everyone reaches into the canopy to pick the fruit. The foundation below is someone else's work; the canopy is the part you actually touch. It is worth singling out the four kinds of application growing there.</p>
+
+    <div class="app">
+      <div class="app-mark">A</div>
+      <div>
+        <h3>Assistants &amp; copilots</h3>
+        <p>Conversational tools that sit beside your work — drafting, summarising, analysing, coding. You stay in control; the AI accelerates each step.</p>
+        <p class="benefit"><b>Where it shines:</b> collapsing the time between a question and a usable first draft.</p>
+      </div>
+    </div>
+    <div class="app">
+      <div class="app-mark">B</div>
+      <div>
+        <h3>Agents &amp; automation</h3>
+        <p>Systems that carry out multi-step tasks on your behalf — researching, executing, and chaining tools together toward a goal you set, rather than a single prompt you type.</p>
+        <p class="benefit"><b>Where it shines:</b> work that is repetitive, multi-stage, or runs while you are elsewhere.</p>
+      </div>
+    </div>
+    <div class="app">
+      <div class="app-mark">C</div>
+      <div>
+        <h3>Domain platforms</h3>
+        <p>Purpose-built tools for a field — drug discovery, legal review, financial modelling — where the interface, data and guardrails are shaped around one profession.</p>
+        <p class="benefit"><b>Where it shines:</b> deep, specialised outcomes that a general assistant cannot safely reach alone.</p>
+      </div>
+    </div>
+    <div class="app">
+      <div class="app-mark">D</div>
+      <div>
+        <h3>Embedded features</h3>
+        <p>AI folded invisibly into software you already use — the smart reply, the auto-summary, the "clean this up" button. No new tool to learn; the capability just appears.</p>
+        <p class="benefit"><b>Where it shines:</b> reaching people who would never open a dedicated AI app.</p>
+      </div>
+    </div>
+
+    <p class="pull">The trunk is grown by a few. The canopy is where everyone else picks — which is exactly why the skill of reaching into it well is worth learning.</p>
+  </section>
+
+  <!-- ============ PART 2 ============ -->
+  <section id="overview-fluency">
+    <span class="sec-num">02 — The Skill</span>
+    <h2>AI fluency and the four competencies</h2>
+
+    <p>Knowing the ecosystem tells you <em>what</em> AI is. Fluency is about working with it well. Anthropic, with academics Rick Dakan and Joseph Feller, defines <span class="lead-in">AI fluency</span> as the ability to collaborate with AI effectively, efficiently, ethically and safely. Notably, it does not require you to code or to understand the mathematics underneath — those are useful, not prerequisites.</p>
+
+    <h3>First, how are you engaging?</h3>
+    <p>Before the competencies comes a simpler question: what kind of relationship are you having with the AI on this task? The framework describes three modes, and the balance of skills shifts depending on which you are in.</p>
+
+    <div class="modes">
+      <div class="mode">
+        <span class="tag">Mode 01</span>
+        <h4>Automation</h4>
+        <p>You scope a specific task and the AI executes it. You define the edges; it fills them in.</p>
+      </div>
+      <div class="mode">
+        <span class="tag">Mode 02</span>
+        <h4>Augmentation</h4>
+        <p>You and the AI work the same problem together, as collaborators passing a draft back and forth.</p>
+      </div>
+      <div class="mode">
+        <span class="tag">Mode 03</span>
+        <h4>Agency</h4>
+        <p>You guide the AI to act independently on your behalf — agents and autonomous loops that run with less supervision.</p>
+      </div>
+    </div>
+
+    <h3>Then, the 4Ds</h3>
+    <p>Across all three modes, fluency organises into four competencies. It is worth noticing that prompting — the skill everyone fixates on — lives inside just one of them. The other three are where most of the real work happens.</p>
+
+    <figure>
+      <div class="figframe">
+        <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The 4D cycle: Delegation, Description, Discernment, Diligence">
+          <defs>
+            <style>
+              .dl{font-family:'Fraunces',serif;font-weight:600;fill:#C15F3C;}
+              .dt{font-family:'Inter',sans-serif;font-weight:600;fill:#1A1917;}
+              .ds{font-family:'Inter',sans-serif;font-weight:400;fill:#8A857D;}
+              .flow{stroke:#DDD7CC;stroke-width:1.4;fill:none;}
+            </style>
+          </defs>
+          <!-- flow line -->
+          <line class="flow" x1="90" y1="150" x2="630" y2="150"/>
+          <!-- loop arc between description and discernment -->
+          <path class="flow" d="M270 150 C 320 100, 400 100, 450 150" stroke="#C15F3C" stroke-dasharray="4 4"/>
+          <text x="360" y="96" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#C15F3C" letter-spacing="1">THE LOOP</text>
+
+          <g text-anchor="middle">
+            <circle cx="90" cy="150" r="6" fill="#C15F3C"/>
+            <text class="dl" x="90" y="182" font-size="24">D</text>
+            <text class="dt" x="90" y="205" font-size="13">Delegation</text>
+
+            <circle cx="270" cy="150" r="6" fill="#C15F3C"/>
+            <text class="dl" x="270" y="182" font-size="24">D</text>
+            <text class="dt" x="270" y="205" font-size="13">Description</text>
+
+            <circle cx="450" cy="150" r="6" fill="#C15F3C"/>
+            <text class="dl" x="450" y="182" font-size="24">D</text>
+            <text class="dt" x="450" y="205" font-size="13">Discernment</text>
+
+            <circle cx="630" cy="150" r="6" fill="#C15F3C"/>
+            <text class="dl" x="630" y="182" font-size="24">D</text>
+            <text class="dt" x="630" y="205" font-size="13">Diligence</text>
+          </g>
+          <text class="ds" x="180" y="140" text-anchor="middle" font-size="11">what &amp; whether</text>
+          <text class="ds" x="540" y="140" text-anchor="middle" font-size="11">own the outcome</text>
+        </svg>
+      </div>
+      <figcaption>Figure 2 — The 4D framework. <b>Description</b> and <b>Discernment</b> form a loop you iterate through; prompting is one quarter of Description alone.</figcaption>
+    </figure>
+
+    <div class="d-grid">
+      <div class="d-card">
+        <div class="d-head"><span class="d-letter">D</span><span class="d-name">Delegation</span></div>
+        <p class="d-role">Deciding whether, when and how to involve AI at all.</p>
+        <p>Before you write a single prompt, you make a judgement call: is this a task to hand over, to share, or to keep entirely human? Good delegation is workflow design, not offloading.</p>
+        <ul class="d-sub">
+          <li><b>Problem awareness</b> — knowing what you actually need done.<span class="ex">"I need a first draft, not a final answer."</span></li>
+          <li><b>Platform awareness</b> — matching the task to the right tool.<span class="ex">a coding agent for a script; an assistant for a memo.</span></li>
+          <li><b>Task framing</b> — splitting work into AI-suited and human-only parts.<span class="ex">let AI summarise 40 reviews; you decide the strategy.</span></li>
+        </ul>
+      </div>
+
+      <div class="d-card">
+        <div class="d-head"><span class="d-letter">D</span><span class="d-name">Description</span></div>
+        <p class="d-role">Communicating the task so the AI behaves usefully. Prompting lives here.</p>
+        <p>Description is more than clever phrasing — it is giving context, constraints, examples and a clear sense of the finish line.</p>
+        <ul class="d-sub">
+          <li><b>Product description</b> — what you want back.<span class="ex">"A 200-word summary, plain English, for a board audience."</span></li>
+          <li><b>Process description</b> — how to get there.<span class="ex">"Think step by step, then give me the shortlist."</span></li>
+          <li><b>Performance description</b> — the role, tone and standards.<span class="ex">"Act as a sceptical editor; challenge weak claims."</span></li>
+        </ul>
+      </div>
+
+      <div class="d-card">
+        <div class="d-head"><span class="d-letter">D</span><span class="d-name">Discernment</span></div>
+        <p class="d-role">Judging the quality, accuracy and bias of what comes back.</p>
+        <p>Critical thinking cannot be outsourced, no matter how confident the output sounds. You treat every result as a strong draft, not a finished product.</p>
+        <ul class="d-sub">
+          <li><b>Product discernment</b> — is the answer actually right?<span class="ex">spotting a confidently invented statistic.</span></li>
+          <li><b>Process discernment</b> — did it reason soundly?<span class="ex">noticing it skipped a step you asked for.</span></li>
+          <li><b>Performance discernment</b> — does it sound like you, and meet the bar?<span class="ex">"Correct, but the tone is nothing like our brand."</span></li>
+        </ul>
+      </div>
+
+      <div class="d-card">
+        <div class="d-head"><span class="d-letter">D</span><span class="d-name">Diligence</span></div>
+        <p class="d-role">Taking responsibility for what you do with AI, and how.</p>
+        <p>Whatever the AI produces in your name is yours. Diligence covers the ethics, transparency and accountability that productivity must never override.</p>
+        <ul class="d-sub">
+          <li><b>Creation diligence</b> — using AI responsibly as you build.<span class="ex">not feeding confidential data into an open tool.</span></li>
+          <li><b>Transparency diligence</b> — being honest about AI's role.<span class="ex">disclosing AI assistance where it matters.</span></li>
+          <li><b>Deployment diligence</b> — owning what you release.<span class="ex">verifying facts before the report goes out under your name.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="pull">Prompting is roughly one quarter of one of the four competencies. The other three quarters are choosing the right work, judging the output, and standing behind it.</p>
+  </section>
+
+  <!-- ============ PART 3 ============ -->
+  <section id="overview-application">
+    <span class="sec-num">03 — The Application</span>
+    <h2>Application fluency: what proficiency actually unlocks</h2>
+
+    <p>The 4Ds are the <em>how</em>. Application fluency is the <em>what next</em> — knowing, once you are competent, what today's leading tools can genuinely do for you. Introductory courses from the major AI labs converge on a similar set of capabilities. Stripped of any one product's branding, here is what proficiency unlocks, and why each matters.</p>
+
+    <div class="app">
+      <div class="app-mark">i</div>
+      <div>
+        <h3>Extended, context-rich conversation</h3>
+        <p>Leading assistants hold long, coherent exchanges and keep track of what you have already said. Fluency means front-loading context and building on prior turns rather than restarting each time.</p>
+        <p class="benefit"><b>The benefit:</b> the tool compounds — each turn is sharper than the last because it inherits everything before it.</p>
+      </div>
+    </div>
+    <div class="app">
+      <div class="app-mark">ii</div>
+      <div>
+        <h3>Working from your own material</h3>
+        <p>You can bring documents, spreadsheets, images and data to the conversation. A proficient user stops asking generic questions and starts asking questions <em>about their own files</em>.</p>
+        <p class="benefit"><b>The benefit:</b> answers grounded in your reality, not the internet's average — analysis of <b>your</b> numbers, summaries of <b>your</b> reports.</p>
+      </div>
+    </div>
+    <div class="app">
+      <div class="app-mark">iii</div>
+      <div>
+        <h3>Producing real, finished artefacts</h3>
+        <p>Modern tools generate more than text: working documents, spreadsheets with live formulas, slide decks, charts and code you can run. Fluency is describing the deliverable precisely enough to get something usable back.</p>
+        <p class="benefit"><b>The benefit:</b> you leave the conversation with a file you can send, not a wall of text you still have to build.</p>
+      </div>
+    </div>
+    <div class="app">
+      <div class="app-mark">iv</div>
+      <div>
+        <h3>Reaching out to the live world</h3>
+        <p>With search and connectors, assistants pull in current information and act across the apps you already use — calendars, drives, inboxes. Proficiency means knowing when to let the tool fetch fresh data versus reason from what it knows.</p>
+        <p class="benefit"><b>The benefit:</b> current, verifiable answers, and work that happens <b>inside</b> your existing systems rather than beside them.</p>
+      </div>
+    </div>
+    <div class="app">
+      <div class="app-mark">v</div>
+      <div>
+        <h3>Reusable set-ups and delegated tasks</h3>
+        <p>The most capable tools let you save context, define standing instructions, and hand off multi-step tasks that run with light supervision. This is where you cross from assistant into agent.</p>
+        <p class="benefit"><b>The benefit:</b> you stop repeating yourself — the tool remembers your standards and executes longer chains of work on its own.</p>
+      </div>
+    </div>
+
+    <p>Read these back against the 4Ds and the shape of fluency becomes clear. <span class="lead-in">Delegation</span> decides which of these capabilities a task needs. <span class="lead-in">Description</span> is how you invoke them precisely. <span class="lead-in">Discernment</span> is how you check what returns — especially with live data and generated files. And <span class="lead-in">Diligence</span> is what keeps the whole thing trustworthy as you hand over more.</p>
+  </section>
+
+  <!-- ============ CLOSER ============ -->
+  <div class="closer">
+    <p class="kicker">In closing</p>
+    <p>The lower layers of the cake will keep growing — more energy, faster chips, larger models. But for most of us, the opportunity is not down in the trunk; it is up in the canopy, and it is a <em>skill</em>. Understanding the ecosystem tells you where you stand. The 4Ds tell you how to work. Application fluency tells you what is now possible. The people who thrive will not be those who write the cleverest prompts, but those who orchestrate human judgement and machine capability into a single, dependable partnership.</p>
+
+    <p class="footnote">Frameworks referenced: Jensen Huang's "five-layer cake" of the AI stack (energy, chips, infrastructure, models, applications), as presented at the World Economic Forum, Davos 2026; and the AI Fluency 4D Framework (Delegation, Description, Discernment, Diligence) developed by Anthropic with Prof. Rick Dakan (Ringling College) and Prof. Joseph Feller (University College Cork), released under a Creative Commons licence. Application-fluency capabilities are generalised from introductory AI-assistant training courses and are described tool-agnostically.</p>
+  </div>
+
+</div>
+</article>
+
+<article class="article-pane" id="article-fluency" data-article="fluency">
+<!-- ===== sticky relay spine (the signature) ===== -->
+<nav class="spine" aria-label="The 4D relay">
+  <div class="spine-inner">
+    <div class="spine-step"><button class="spine-link" data-go="delegation"><span class="dot"></span>Delegation</button><span class="spine-arrow">→</span></div>
+    <div class="spine-step"><button class="spine-link" data-go="description"><span class="dot"></span>Description</button><span class="spine-arrow">→</span></div>
+    <div class="spine-step"><button class="spine-link" data-go="discernment"><span class="dot"></span>Discernment</button><span class="spine-arrow">→</span></div>
+    <div class="spine-step"><button class="spine-link" data-go="diligence"><span class="dot"></span>Diligence</button><span class="spine-arrow">→</span></div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">Part Two · From Theory <span class="part2">to Execution</span></p>
+    <h1>From Skill to Practice</h1>
+    <p class="standfirst">The first guide named the four competencies. This one turns them into a single connected workflow — four simple frameworks where each decision feeds the next, so a choice you make at the start still shapes what you check at the end.</p>
+    <div class="continues">Continues from <b>“From Stack to Skill”</b> — you don't need it first, but the 4Ds live there.</div>
+    <div class="byline">
+      <span>Four frameworks</span>
+      <span>~11 min read</span>
+      <span>One handoff chain</span>
+    </div>
+  </header>
+
+  <!-- ===== INTRO / THE CHAIN ===== -->
+  <section id="fluency-chain">
+    <span class="sec-num">00 — The Idea</span>
+    <h2>Fluency is a relay, not four separate skills</h2>
+
+    <p>Most people meet the 4Ds as a checklist: four things to be good at. That is true but incomplete. In practice they behave like a <span class="lead-in">relay</span> — each stage produces something small and specific that the next stage runs on. Get the handoff right and the whole chain gets easier. Get it wrong at the start and no amount of clever prompting downstream can recover it.</p>
+
+    <p>So the useful question is not “how do I do Description well?” in the abstract. It is: <em>given the call I made at Delegation, what does good Description now look like — and what does that, in turn, tell me to check?</em> That single thread is what this piece builds. Here is the chain in one view.</p>
+
+    <figure>
+      <div class="figframe">
+        <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The 4D relay: each stage outputs an artefact the next stage consumes">
+          <defs>
+            <style>
+              .nl{font-family:'Fraunces',serif;font-weight:600;fill:#1A1917;}
+              .no{font-family:'IBM Plex Mono',monospace;fill:#5C6B4A;letter-spacing:1px;}
+              .ni{font-family:'Inter',sans-serif;fill:#8A857D;}
+              .box{fill:#FDFBF7;stroke:#DDD7CC;stroke-width:1.2;}
+              .flow{stroke:#C15F3C;stroke-width:1.6;fill:none;}
+              .art{fill:#D9DFCB;stroke:#5C6B4A;stroke-width:1;}
+              .artt{font-family:'IBM Plex Mono',monospace;font-size:9px;fill:#5C6B4A;letter-spacing:.5px;}
+            </style>
+          </defs>
+
+          <!-- four stage boxes -->
+          <g>
+            <rect class="box" x="20"  y="70" width="150" height="70" rx="6"/>
+            <text class="nl" x="95"  y="100" text-anchor="middle" font-size="17">Delegation</text>
+            <text class="ni" x="95"  y="122" text-anchor="middle" font-size="11">what &amp; whether</text>
+
+            <rect class="box" x="205" y="70" width="150" height="70" rx="6"/>
+            <text class="nl" x="280" y="100" text-anchor="middle" font-size="17">Description</text>
+            <text class="ni" x="280" y="122" text-anchor="middle" font-size="11">how you ask</text>
+
+            <rect class="box" x="390" y="70" width="150" height="70" rx="6"/>
+            <text class="nl" x="465" y="100" text-anchor="middle" font-size="17">Discernment</text>
+            <text class="ni" x="465" y="122" text-anchor="middle" font-size="11">how you check</text>
+
+            <rect class="box" x="575" y="70" width="130" height="70" rx="6"/>
+            <text class="nl" x="640" y="100" text-anchor="middle" font-size="17">Diligence</text>
+            <text class="ni" x="640" y="122" text-anchor="middle" font-size="11">what you own</text>
+          </g>
+
+          <!-- connectors -->
+          <path class="flow" d="M170 105 L205 105" marker-end="url(#fluency-ah)"/>
+          <path class="flow" d="M355 105 L390 105" marker-end="url(#fluency-ah)"/>
+          <path class="flow" d="M540 105 L575 105" marker-end="url(#fluency-ah)"/>
+          <defs>
+            <marker id="fluency-ah" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#C15F3C"/>
+            </marker>
+          </defs>
+
+          <!-- handoff artefacts (what each stage passes on) -->
+          <g>
+            <rect class="art" x="120" y="168" width="140" height="34" rx="4"/>
+            <text class="artt" x="190" y="182" text-anchor="middle">HANDS OVER</text>
+            <text class="artt" x="190" y="195" text-anchor="middle" font-size="10" fill="#1A1917">a task profile</text>
+
+            <rect class="art" x="305" y="168" width="140" height="34" rx="4"/>
+            <text class="artt" x="375" y="182" text-anchor="middle">HANDS OVER</text>
+            <text class="artt" x="375" y="195" text-anchor="middle" font-size="10" fill="#1A1917">a spec &amp; success test</text>
+
+            <rect class="art" x="490" y="168" width="150" height="34" rx="4"/>
+            <text class="artt" x="565" y="182" text-anchor="middle">HANDS OVER</text>
+            <text class="artt" x="565" y="195" text-anchor="middle" font-size="10" fill="#1A1917">a verified result</text>
+          </g>
+
+          <!-- dotted lines from box down to artefact -->
+          <path d="M190 140 L190 168" stroke="#5C6B4A" stroke-width="1" stroke-dasharray="3 3" fill="none"/>
+          <path d="M375 140 L375 168" stroke="#5C6B4A" stroke-width="1" stroke-dasharray="3 3" fill="none"/>
+          <path d="M565 140 L565 168" stroke="#5C6B4A" stroke-width="1" stroke-dasharray="3 3" fill="none"/>
+
+          <text class="no" x="20" y="40" font-size="11">THE RELAY →</text>
+          <text class="ni" x="20" y="235" font-size="11">Each stage’s output is the next stage’s input. Break a handoff and the chain stalls.</text>
+        </svg>
+      </div>
+      <figcaption>Figure 1 — The relay. Delegation hands over a <b>task profile</b> — mode, stakes, surface and definition of done; Description turns it into a <b>spec &amp; success test</b>; Discernment returns a <b>verified result</b>; Diligence decides what it takes to own it.</figcaption>
+    </figure>
+
+    <p>Four short frameworks follow — one per stage. Each ends by handing you the exact artefact the next one needs.</p>
+  </section>
+
+  <!-- ===== DELEGATION ===== -->
+  <section id="fluency-delegation">
+    <span class="sec-num">01 — Delegation</span>
+    <h2>The Leverage Scan: find the work worth handing over</h2>
+
+    <p>Delegation fails most often not because people pick the wrong tool, but because they never <em>looked at their work as a whole</em> before reaching for one. The Leverage Scan fixes that. It is a two-minute pass over any task or week that sorts work by a single question: <span class="lead-in">where does AI create the most value for the least risk?</span></p>
+
+    <p>Run every candidate task through two axes. <b>Leverage</b> — how much time, reach or quality is on the line if this goes faster or better. <b>Suitability</b> — how well-matched the task is to what AI does reliably (bounded, text- or pattern-heavy, tolerant of a draft-then-refine loop). Plot the two and the quadrant tells you what to do.</p>
+
+    <figure>
+      <div class="figframe">
+        <svg viewBox="0 0 640 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Leverage Scan matrix: leverage against AI suitability, four quadrants">
+          <defs>
+            <style>
+              .axl{font-family:'IBM Plex Mono',monospace;font-size:11px;fill:#8A857D;letter-spacing:1px;}
+              .qh{font-family:'Fraunces',serif;font-weight:600;font-size:16px;}
+              .qs{font-family:'Inter',sans-serif;font-size:11px;fill:#54504A;}
+            </style>
+          </defs>
+          <!-- quadrant fills -->
+          <rect x="80" y="40" width="250" height="170" fill="#EDE7DA"/>
+          <rect x="330" y="40" width="250" height="170" fill="#F0DFD4"/>
+          <rect x="80" y="210" width="250" height="170" fill="#F4F1EA"/>
+          <rect x="330" y="210" width="250" height="170" fill="#E4E9D6"/>
+          <!-- grid frame -->
+          <rect x="80" y="40" width="500" height="340" fill="none" stroke="#DDD7CC" stroke-width="1.2"/>
+          <line x1="330" y1="40" x2="330" y2="380" stroke="#DDD7CC" stroke-width="1.2"/>
+          <line x1="80" y1="210" x2="580" y2="210" stroke="#DDD7CC" stroke-width="1.2"/>
+
+          <!-- axis labels -->
+          <text class="axl" x="330" y="410" text-anchor="middle">AI SUITABILITY  →</text>
+          <text class="axl" x="330" y="428" text-anchor="middle" font-size="10" fill="#8A857D">bounded · pattern-heavy · tolerant of drafts</text>
+          <text class="axl" x="40" y="215" text-anchor="middle" transform="rotate(-90 40 215)">LEVERAGE  →</text>
+
+          <!-- quadrant content -->
+          <text class="qh" x="205" y="115" text-anchor="middle" fill="#B08A4F">Keep human-led</text>
+          <text class="qs" x="205" y="135" text-anchor="middle">High stakes, poor fit.</text>
+          <text class="qs" x="205" y="150" text-anchor="middle">Use AI only to prep, never to decide.</text>
+
+          <text class="qh" x="455" y="115" text-anchor="middle" fill="#C15F3C">Automate first</text>
+          <text class="qs" x="455" y="135" text-anchor="middle">The prize. High value,</text>
+          <text class="qs" x="455" y="150" text-anchor="middle">strong fit — start here.</text>
+
+          <text class="qh" x="205" y="285" text-anchor="middle" fill="#8A857D">Ignore for now</text>
+          <text class="qs" x="205" y="305" text-anchor="middle">Low value, poor fit.</text>
+          <text class="qs" x="205" y="320" text-anchor="middle">Not worth the setup.</text>
+
+          <text class="qh" x="455" y="285" text-anchor="middle" fill="#5C6B4A">Quick wins</text>
+          <text class="qs" x="455" y="305" text-anchor="middle">Easy, low-risk. Build</text>
+          <text class="qs" x="455" y="320" text-anchor="middle">the habit and confidence here.</text>
+
+          <text class="axl" x="90" y="55" font-size="10" fill="#8A857D">high</text>
+          <text class="axl" x="90" y="372" font-size="10" fill="#8A857D">low</text>
+        </svg>
+      </div>
+      <figcaption>Figure 2 — The Leverage Scan. Sort tasks by value at stake against fit-to-AI. The <b>“Automate first”</b> quadrant is where you point your fluency; <b>“Quick wins”</b> is where you build it.</figcaption>
+    </figure>
+
+    <p>The scan does one more thing, and it is the important one: for each task you keep, it records <em>three</em> facts that become the task profile you hand to Description. What mode you're in (automation, augmentation or agency), how much is at stake, and what "done" would actually look like.</p>
+
+    <h3>Then pick the surface</h3>
+    <p>Choosing to use AI isn't one choice — it's two. The second is <em>where</em>. The same task handled in a chat window, a delegated-work surface, or a coding environment gives you very different leverage, and the right pick falls out of the profile you just built. Read across from the <b>mode</b> and the <b>shape of the deliverable</b>, and the surface chooses itself.</p>
+
+    <div class="surfaces">
+      <div class="surf">
+        <span class="st">Shape · a conversation</span>
+        <h4>Chat assistant</h4>
+        <p class="shape">You stay in the loop, turn by turn.</p>
+        <p>Thinking, drafting, analysing, quick Q&amp;A. You supply context and steer every step.</p>
+        <div class="pick"><b>Pick when:</b> mode is <b>augmentation</b> and you want a collaborator you actively drive.<span class="tool">→ Claude chat</span></div>
+      </div>
+      <div class="surf">
+        <span class="st">Shape · a job to run</span>
+        <h4>Agentic workspace</h4>
+        <p class="shape">You set a goal; it works across steps.</p>
+        <p>Multi-stage research, analysis over many files, tasks that run with light supervision and hand back a package.</p>
+        <div class="pick"><b>Pick when:</b> mode is <b>agency</b>, or automation spanning many steps.<span class="tool">→ Claude Cowork</span></div>
+      </div>
+      <div class="surf">
+        <span class="st">Shape · code &amp; systems</span>
+        <h4>Coding environment</h4>
+        <p class="shape">It reads, writes and runs a codebase.</p>
+        <p>Building, debugging, refactoring, shipping. The deliverable is software that has to actually run.</p>
+        <div class="pick"><b>Pick when:</b> the artefact is code — in any mode.<span class="tool">→ Claude Code</span></div>
+      </div>
+      <div class="surf">
+        <span class="st">Shape · inside a document</span>
+        <h4>Embedded surface</h4>
+        <p class="shape">The AI meets you in the file itself.</p>
+        <p>Work that lives in a spreadsheet, a deck, a doc or the browser — where leaving the tool would break the flow.</p>
+        <div class="pick"><b>Pick when:</b> the output <em>is</em> the document you're already in.<span class="tool">→ Claude in Excel · PowerPoint · Chrome</span></div>
+      </div>
+    </div>
+    <p style="font-size:14px;color:var(--ink-faint);margin-top:14px;">The named tools are today's Claude surfaces; the four <em>shapes</em> are the durable part — any assistant, agent, coding tool and embedded feature maps onto them. Match the shape, not the brand, and the choice survives the next product release.</p>
+
+    <div class="handoff" role="group" aria-label="Delegation handoff">
+      <div class="handoff-in"><span class="lab">Delegation produces</span><span class="val"><b>A task profile:</b> mode · stakes · surface · a one-line definition of done.</span></div>
+      <div class="handoff-mid" aria-hidden="true">→</div>
+      <div class="handoff-out"><span class="lab">Description receives</span><span class="val">A clear task to translate into an instruction — with its mode, surface and finish line already fixed.</span></div>
+    </div>
+
+    <p class="pull">Choosing to use AI is really two choices: what kind of task it is, and which surface it belongs on. The scan settles both before you type a word.</p>
+  </section>
+
+  <!-- ===== DESCRIPTION ===== -->
+  <section id="fluency-description">
+    <span class="sec-num">02 — Description</span>
+    <h2>The Spec Ladder: match how you ask to what you delegated</h2>
+
+    <p>Here is where the chain earns its keep. Description isn't one skill applied uniformly — the <em>kind</em> of description a task needs is set by the mode you recorded at Delegation. A bounded automation task and an open agency task need very different instructions. The Spec Ladder maps mode to method so you stop over- or under-specifying.</p>
+
+    <div class="fw">
+      <div class="fw-row">
+        <div class="fw-key"><span class="ks">If mode =</span><span class="kt">Automation</span></div>
+        <div class="fw-val">
+          <p><b>Describe tightly. Precision beats freedom.</b> The task is bounded, so pin the output shape, the format and the constraints. Lead with <em>product</em> description — exactly what you want back — and give an example of “good.”</p>
+          <p class="ex">"Extract every dollar figure from this PDF into a two-column table: item, amount. Numbers only, no commentary."</p>
+        </div>
+      </div>
+      <div class="fw-row">
+        <div class="fw-key"><span class="ks">If mode =</span><span class="kt">Augmentation</span></div>
+        <div class="fw-val">
+          <p><b>Describe the process, then iterate.</b> You're collaborating, so set the role and the thinking method, not just the output. Lean on <em>process</em> and <em>performance</em> description and expect a back-and-forth.</p>
+          <p class="ex">"Act as a sceptical editor. Read my draft, then think step by step about its three weakest claims before suggesting fixes."</p>
+        </div>
+      </div>
+      <div class="fw-row">
+        <div class="fw-key"><span class="ks">If mode =</span><span class="kt">Agency</span></div>
+        <div class="fw-val">
+          <p><b>Describe the goal, the guardrails and the stop conditions.</b> The AI will make choices you won't see, so specify success, boundaries, and when to pause and ask. This is spec-writing, not prompting.</p>
+          <p class="ex">"Goal: draft replies to these 12 emails. Never send. Flag anything involving money or legal terms for me. Stop and ask if unsure."</p>
+        </div>
+      </div>
+    </div>
+
+    <p>Notice that “prompting” — the phrasing everyone obsesses over — is only the surface of the automation rung. As you climb toward agency, description becomes less about wording and more about <span class="lead-in">defining a contract</span>: what success is, what's off-limits, and where the AI must hand control back. That contract is also, conveniently, your success test — which is exactly what Discernment needs.</p>
+
+    <div class="handoff" role="group" aria-label="Description handoff">
+      <div class="handoff-in"><span class="lab">Description produces</span><span class="val"><b>A spec with a success test:</b> the instruction, plus an explicit statement of what “right” looks like.</span></div>
+      <div class="handoff-mid" aria-hidden="true">→</div>
+      <div class="handoff-out"><span class="lab">Discernment receives</span><span class="val">A standard to check the output against — written before the output existed, so it can't be swayed by it.</span></div>
+    </div>
+
+    <p class="pull">If you can't state the success test while you're writing the prompt, you're not ready to judge the answer. Write the test first.</p>
+  </section>
+
+  <!-- ===== DISCERNMENT ===== -->
+  <section id="fluency-discernment">
+    <span class="sec-num">03 — Discernment</span>
+    <h2>The Check Matches the Task: right-sized evaluation</h2>
+
+    <p>The mistake at this stage is checking everything the same way — either rubber-stamping a high-stakes output or laboriously fact-checking a throwaway one. The type of evaluation should be set by the same two facts you've been carrying since Delegation: the <b>mode</b> and the <b>stakes</b>. The Spec Ladder told the AI what to do; now the same profile tells <em>you</em> how hard to look.</p>
+
+    <p>The first article split discernment three ways — product, process and performance. Here's when each earns your attention, and how deep to go.</p>
+
+    <div class="fw">
+      <div class="fw-row">
+        <div class="fw-key"><span class="ks">Automation</span><span class="kt">Spot-check the product</span></div>
+        <div class="fw-val">
+          <p>The output is bounded and testable, so <b>check the result against a known truth.</b> Verify a sample, confirm the format, look for the confidently-invented number. You rarely need to inspect its reasoning.</p>
+          <p class="ex">Recompute three rows of the extracted table by hand. If they match, trust the rest.</p>
+        </div>
+      </div>
+      <div class="fw-row">
+        <div class="fw-key"><span class="ks">Augmentation</span><span class="kt">Interrogate the process</span></div>
+        <div class="fw-val">
+          <p>You care how it got there, because you'll build on it. <b>Read the reasoning, not just the conclusion.</b> Did it follow the method you set? Did it skip a step, or smuggle in an assumption?</p>
+          <p class="ex">"You recommended option B — walk me through what you ruled out and why." Then pressure-test that.</p>
+        </div>
+      </div>
+      <div class="fw-row">
+        <div class="fw-key"><span class="ks">Agency</span><span class="kt">Audit the trail</span></div>
+        <div class="fw-val">
+          <p>The AI acted across steps you didn't watch, so <b>evaluate the whole trajectory, not just the final artefact.</b> Check what it touched, what it changed, and every point where it made a call. Sample the actions, not only the outcome.</p>
+          <p class="ex">Before accepting 12 drafted replies: read all 12, confirm none were sent, verify the money/legal flags fired correctly.</p>
+        </div>
+      </div>
+    </div>
+
+    <p>The rule of thumb: <span class="lead-in">as autonomy rises, your check moves from the answer to the journey.</span> Low-autonomy work lets you verify the product cheaply. High-autonomy work forces you to audit the process, because the product alone can hide a bad decision made three steps back. Whatever survives this check is the verified result you now have to stand behind — which is where Diligence begins.</p>
+
+    <div class="handoff" role="group" aria-label="Discernment handoff">
+      <div class="handoff-in"><span class="lab">Discernment produces</span><span class="val"><b>A verified result</b> — plus a note of what you checked and how confident you are.</span></div>
+      <div class="handoff-mid" aria-hidden="true">→</div>
+      <div class="handoff-out"><span class="lab">Diligence receives</span><span class="val">Something you've judged fit to use — and now must decide how far you're willing to send.</span></div>
+    </div>
+
+    <p class="pull">Don't check every task the same way. Check it the way its autonomy demands — the answer for bounded work, the whole journey for autonomous work.</p>
+  </section>
+
+  <!-- ===== DILIGENCE ===== -->
+  <section id="fluency-diligence">
+    <span class="sec-num">04 — Diligence</span>
+    <h2>The Exposure Ladder: match diligence to who's affected</h2>
+
+    <p>Diligence is where the chain closes. Everything upstream produced a result you trust for yourself; diligence asks a different question — <span class="lead-in">who else is exposed if this is wrong, and what do you owe them?</span> The single best predictor of how much diligence a task needs is not how clever the AI was, but <em>how far the output travels and who relies on it.</em></p>
+
+    <p>So sort by exposure, not by effort. The further a piece of work travels from you, the higher the rung — and each rung adds a non-negotiable gate before release.</p>
+
+    <div class="ladder">
+      <div class="rung">
+        <div class="rung-band lv1"><span class="lv">LVL 1</span><span class="lvn">1</span></div>
+        <div class="rung-body">
+          <h4>Personal &amp; exploratory</h4>
+          <div class="who">Audience: just you · reversible</div>
+          <p>Drafts, brainstorms, learning, private analysis. A mistake costs only your own time.</p>
+          <p class="gate"><b>Gate:</b> a sanity read. Use freely; trust but verify anything you'll carry forward.</p>
+        </div>
+      </div>
+      <div class="rung">
+        <div class="rung-band lv2"><span class="lv">LVL 2</span><span class="lvn">2</span></div>
+        <div class="rung-body">
+          <h4>Internal &amp; shared</h4>
+          <div class="who">Audience: your team · colleagues act on it</div>
+          <p>Team reports, internal memos, analysis others will build decisions on. Errors propagate to people who trusted you.</p>
+          <p class="gate"><b>Gate:</b> verify key facts and figures · be transparent that AI was involved so others can weight it.</p>
+        </div>
+      </div>
+      <div class="rung">
+        <div class="rung-band lv3"><span class="lv">LVL 3</span><span class="lvn">3</span></div>
+        <div class="rung-body">
+          <h4>External &amp; attributed</h4>
+          <div class="who">Audience: customers, public · your name on it</div>
+          <p>Client deliverables, published content, anything carrying your or your organisation's reputation. Errors become <em>your</em> errors, publicly.</p>
+          <p class="gate"><b>Gate:</b> full fact-check · human sign-off · no confidential data used · disclosure where it matters.</p>
+        </div>
+      </div>
+      <div class="rung">
+        <div class="rung-band lv4"><span class="lv">LVL 4</span><span class="lvn">4</span></div>
+        <div class="rung-body">
+          <h4>Regulated &amp; consequential</h4>
+          <div class="who">Audience: government, industry, safety-critical</div>
+          <p>Regulatory filings, legal, medical, financial advice, anything where a person could be harmed or a law engaged.</p>
+          <p class="gate"><b>Gate:</b> everything above, plus qualified expert review · documented accountability · AI treated as assistant, never author of record.</p>
+        </div>
+      </div>
+    </div>
+
+    <p>The ladder makes the hardest judgement — “is this a big deal?” — mechanical. You don't estimate risk in the abstract; you ask a concrete question: <em>who receives this?</em> The answer picks the rung, and the rung names the gate. And because you tagged the stakes back at Delegation, a Level 3 or 4 task should never surprise you here — you'll have seen it coming from the very first step.</p>
+
+    <div class="handoff" role="group" aria-label="Diligence closes the loop">
+      <div class="handoff-in" style="background:var(--clay-soft);"><span class="lab" style="color:var(--clay);">Diligence produces</span><span class="val"><b>A release decision you can defend</b> — the right gate cleared for the right audience.</span></div>
+      <div class="handoff-mid" aria-hidden="true" style="color:var(--clay);">↺</div>
+      <div class="handoff-out" style="background:var(--moss-soft);"><span class="lab" style="color:var(--moss);">Feeds back to Delegation</span><span class="val">What you learned about stakes and effort sharpens the next Leverage Scan. The relay becomes a loop.</span></div>
+    </div>
+  </section>
+
+  <!-- ===== INTERACTIVE ROUTER ===== -->
+  <section id="fluency-router">
+    <span class="sec-num">05 — Try It</span>
+    <h2>The workflow router: make one call, watch it cascade</h2>
+
+    <p>This is the whole argument in one control. Make the two decisions you'd make at Delegation — pick a <b>mode</b> and an <b>exposure level</b> — and the frameworks resolve into a single, task-specific plan: the <b>surface</b> to reach for, how to describe, how to check, and what gate to clear. Change either input and watch every downstream stage update. That propagation <em>is</em> the point: the frameworks are connected, not separate.</p>
+
+    <figure>
+      <div class="figframe router" id="fluency-router">
+        <p class="router-hint">Pick one from each row. The four Ds below rewrite themselves.</p>
+
+        <div class="router-q">
+          <span class="ql">① Delegation — what mode is this task?</span>
+          <div class="chips" data-group="mode">
+            <button class="chip" data-val="automation">Automation</button>
+            <button class="chip" data-val="augmentation">Augmentation</button>
+            <button class="chip" data-val="agency">Agency</button>
+          </div>
+        </div>
+
+        <div class="router-q">
+          <span class="ql">② Delegation — who ends up seeing the result?</span>
+          <div class="chips" data-group="exposure">
+            <button class="chip" data-val="l1">Just me</button>
+            <button class="chip" data-val="l2">My team</button>
+            <button class="chip" data-val="l3">Customers / public</button>
+            <button class="chip" data-val="l4">Regulated / safety-critical</button>
+          </div>
+        </div>
+
+        <div class="router-out" id="fluency-routerOut" aria-live="polite">
+          <div class="ro-empty">Make both choices to generate your plan.</div>
+        </div>
+      </div>
+      <figcaption>Figure 3 — The router. Two Delegation choices set Description, Discernment and Diligence for you. <b>Interactive — pick a mode and an exposure level.</b></figcaption>
+    </figure>
+  </section>
+
+  <!-- ===== WORKED EXAMPLE ===== -->
+  <section id="fluency-worked">
+    <span class="sec-num">06 — End to End</span>
+    <h2>One task, all four stages</h2>
+
+    <p>To see the handoffs carry, follow a single ordinary task the whole way down the chain.</p>
+
+    <div class="worked">
+      <p class="wl">The task</p>
+      <p class="wtask">“Summarise 40 customer reviews into a one-page insight brief for next week's leadership meeting.”</p>
+      <div class="worked-flow">
+        <div class="wcard">
+          <div class="wd">01 Delegation</div>
+          <p>Leverage Scan: high value, strong fit → <b>Automate first</b>. Mode = <b>augmentation</b>. Surface = <b>chat</b> (you'll drive the angle). Stakes = internal. <b>Profile handed over.</b></p>
+        </div>
+        <div class="wcard">
+          <div class="wd">02 Description</div>
+          <p>Augmentation rung: set the role and process. <b>“Cluster the reviews into themes, show me the clusters, then we'll pick the three worth briefing.”</b> Success test written.</p>
+        </div>
+        <div class="wcard">
+          <div class="wd">03 Discernment</div>
+          <p>Augmentation → interrogate the process. <b>Read the clustering logic; trace two quotes back to real reviews</b> to catch invented sentiment. Verified.</p>
+        </div>
+        <div class="wcard">
+          <div class="wd">04 Diligence</div>
+          <p>Exposure = internal/shared → <b>Level 2</b>. Gate: verify the headline figures, note AI helped draft it. No client data leaves. <b>Cleared to send.</b></p>
+        </div>
+      </div>
+    </div>
+
+    <p>No stage was done in isolation. The augmentation call at Delegation is <em>why</em> Description set a process and <em>why</em> Discernment read the reasoning. The internal audience is <em>why</em> Diligence stopped at a Level 2 gate rather than a full external fact-check. Change the task to “publish these insights in our public quarterly report” and only two inputs move — exposure jumps to Level 3 — but the whole downstream plan tightens automatically. That's the relay working.</p>
+  </section>
+
+  <!-- ===== CLOSER ===== -->
+  <div class="closer">
+    <p class="kicker">In closing</p>
+    <p>The first guide argued that prompting is a quarter of one competency, and that the real skill is orchestration. This is what orchestration looks like up close: not four things you're separately good at, but one chain you run deliberately — a call at the top that sets the ask, the check and the gate all the way down. Master the handoffs and you stop treating each task as a fresh puzzle. You just run the relay, and it carries you from a rough idea to a result you can stand behind.</p>
+
+    <p class="footnote">Companion to “From Stack to Skill.” Builds directly on the AI Fluency 4D Framework (Delegation, Description, Discernment, Diligence) developed by Anthropic with Prof. Rick Dakan (Ringling College) and Prof. Joseph Feller (University College Cork), released under a Creative Commons licence. The Leverage Scan, Spec Ladder, right-sized Discernment and Exposure Ladder presented here are practical scaffolds for executing that framework; they extend rather than restate it, and are offered tool-agnostically.</p>
+  </div>
+
+</div>
+</article>
+
+<article class="article-pane" id="article-application" data-article="application">
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">A Practical Guide · Part Three</p>
+    <h1>From Practice to Proficiency</h1>
+    <p class="standfirst">You've decided to hand something over. Now: where does the work actually happen? Four rooms, two questions that tell them apart, and what changes downstream once you've chosen.</p>
+    <div class="byline">
+      <span>Part three of three</span>
+      <span>~10 min read</span>
+      <span>Surfaces · Selection · Scenarios</span>
+    </div>
+
+    <div class="series">
+      <div class="series-item">
+        <span class="series-n">One</span>
+        <span class="series-t">From Stack to Skill</span>
+        <span class="series-d">Where the value sits</span>
+      </div>
+      <div class="series-item">
+        <span class="series-n">Two</span>
+        <span class="series-t">From Skill to Practice</span>
+        <span class="series-d">The 4Ds as a relay</span>
+      </div>
+      <div class="series-item now">
+        <span class="series-n">Three · you are here</span>
+        <span class="series-t">From Practice to Proficiency</span>
+        <span class="series-d">Choosing the surface</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ PART 1 ============ -->
+  <section id="application-axes">
+    <span class="sec-num">01 — The Framework</span>
+    <h2>Two questions, and the room picks itself</h2>
+
+    <p>Article two put <span class="lead-in">Delegation</span> first because it runs before you type a word. Here's the last thing it owes you: <span class="lead-in">where</span> the work happens. Four products looks like a menu to memorise — don't bother. They're four points on two axes, and the axes are the durable bit.</p>
+
+    <p>First: <span class="lead-in">how long does the context need to live?</span> Some work is a hotel room. Bring what you need, use it, hand back the key. Other work is an office — same desk, same files, every week — and setting it up from scratch each morning would be daft.</p>
+
+    <p>Second: <span class="lead-in">who actually does the work?</span> Sometimes you're in the passenger seat with a map, calling every turn. Sometimes you give the driver an address and read your book. One is a conversation. The other is a job.</p>
+
+    <figure>
+      <div class="figframe">
+        <svg viewBox="0 0 720 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A two-by-two matrix. Horizontal axis: context lifespan, from single sitting to persistent. Vertical axis: execution, from you steer each turn to AI runs the chain. The four quadrants are Claude Chat, Claude Projects, Cowork and Claude Code.">
+          <defs>
+            <style>
+              .ax{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:1.4px;fill:#8A857D;text-transform:uppercase;}
+              .qn{font-family:'Fraunces',serif;font-weight:500;font-size:20px;fill:#1A1917;}
+              .qs{font-family:'Inter',sans-serif;font-weight:400;font-size:12.5px;fill:#54504A;}
+              .qm{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:1.2px;fill:#C15F3C;}
+              .gr{stroke:#DDD7CC;stroke-width:1;fill:none;}
+            </style>
+          </defs>
+
+          <!-- quadrant fills -->
+          <rect x="96" y="52" width="290" height="168" rx="4" fill="#FDFBF7" stroke="#DDD7CC"/>
+          <rect x="392" y="52" width="290" height="168" rx="4" fill="#FDFBF7" stroke="#DDD7CC"/>
+          <rect x="96" y="226" width="290" height="168" rx="4" fill="#F6F4EE" stroke="#DDD7CC"/>
+          <rect x="392" y="226" width="290" height="168" rx="4" fill="#F6F4EE" stroke="#DDD7CC"/>
+
+          <!-- top-left: chat -->
+          <text class="qm" x="118" y="82">SHAPE · A CONVERSATION</text>
+          <text class="qn" x="118" y="112">Claude Chat</text>
+          <text class="qs" x="118" y="136">One sitting. You steer every turn.</text>
+          <text class="qs" x="118" y="156">Thinking, drafting, interrogating</text>
+          <text class="qs" x="118" y="176">a document you brought with you.</text>
+          <text class="qs" x="118" y="202" fill="#8A857D">Context dies with the chat.</text>
+
+          <!-- top-right: projects -->
+          <text class="qm" x="414" y="82">SHAPE · A STANDING BRIEF</text>
+          <text class="qn" x="414" y="112">Claude Projects</text>
+          <text class="qs" x="414" y="136">Recurring. You still steer,</text>
+          <text class="qs" x="414" y="156">but the background persists —</text>
+          <text class="qs" x="414" y="176">files and instructions, once.</text>
+          <text class="qs" x="414" y="202" fill="#8A857D">Context outlives any one chat.</text>
+
+          <!-- bottom-left: code -->
+          <text class="qm" x="118" y="256">SHAPE · SOMETHING THAT RUNS</text>
+          <text class="qn" x="118" y="286">Claude Code</text>
+          <text class="qs" x="118" y="310">A job, in a codebase. The AI</text>
+          <text class="qs" x="118" y="330">executes, tests and iterates</text>
+          <text class="qs" x="118" y="350">against something verifiable.</text>
+          <text class="qs" x="118" y="376" fill="#8A857D">Correctness is machine-checkable.</text>
+
+          <!-- bottom-right: cowork -->
+          <text class="qm" x="414" y="256">SHAPE · A JOB YOU HAND OVER</text>
+          <text class="qn" x="414" y="286">Cowork</text>
+          <text class="qs" x="414" y="310">Multi-step work across your</text>
+          <text class="qs" x="414" y="330">real files. You scope it,</text>
+          <text class="qs" x="414" y="350">approve the plan, step away.</text>
+          <text class="qs" x="414" y="376" fill="#8A857D">You review the output, not the turns.</text>
+
+          <!-- axis labels -->
+          <text class="ax" x="96" y="32">EXECUTION</text>
+          <text class="ax" x="389" y="426" text-anchor="middle">CONTEXT LIFESPAN</text>
+          <text class="ax" x="140" y="446" text-anchor="middle">single sitting</text>
+          <text class="ax" x="640" y="446" text-anchor="middle">persistent</text>
+          <line class="gr" x1="96" y1="410" x2="682" y2="410"/>
+          <path d="M96 410 l7 -4 v8 z" fill="#DDD7CC"/>
+          <path d="M682 410 l-7 -4 v8 z" fill="#DDD7CC"/>
+
+          <text class="ax" x="0" y="0" transform="translate(58,136) rotate(-90)" text-anchor="middle">you steer</text>
+          <text class="ax" x="0" y="0" transform="translate(58,310) rotate(-90)" text-anchor="middle">AI runs the chain</text>
+          <line class="gr" x1="82" y1="52" x2="82" y2="394"/>
+          <path d="M82 52 l-4 7 h8 z" fill="#DDD7CC"/>
+          <path d="M82 394 l-4 -7 h8 z" fill="#DDD7CC"/>
+        </svg>
+      </div>
+      <figcaption>Figure 1 — The surface matrix. Two questions from Delegation — <b>how long does the context live</b>, and <b>who executes</b> — land you in a room. The shapes are durable; the product names are this year's instance.</figcaption>
+    </figure>
+
+    <p>One thing that trips people up: Code sits in the bottom half, and not because programming is some loftier kind of thinking. It's there because code is the only thing on this page that can be handed back and <em>tested</em>. A paragraph can only be read and judged; a script either runs or it doesn't. So if what you want at the end is something that has to work, use the room with a workbench in it. That's about the output, not about you.</p>
+
+    <p>Pick the wrong room and you pay for it all session — re-pasting background that should have just been sitting there, or hovering over a job that would have run fine without you.</p>
+
+    <p class="pull">Choosing to use AI is really two choices. What kind of work this is, and where that kind of work belongs.</p>
+  </section>
+
+  <!-- ============ PART 3 ============ -->
+  <section id="application-surfaces">
+    <span class="sec-num">02 — The Surfaces</span>
+    <h2>What each one is actually for</h2>
+
+    <p>Read the triggers rather than the names — the trigger is what you'll actually recognise in the moment, usually about thirty seconds too late.</p>
+
+    <div class="s-grid">
+
+      <div class="s-card">
+        <div class="s-head">
+          <span class="s-name">Chat</span>
+          <span class="s-tool">Claude Chat</span>
+        </div>
+        <span class="s-shape">Shape · a conversation you drive</span>
+        <p class="s-role">The default, and rightly so — for work that starts and finishes in one go.</p>
+        <p>Chat is thinking out loud with something that thinks back. You bring the material, you call each turn, and the value builds inside the one thread. Its limitation is just the flip side of that: close the window and the context goes with it. Which is fine — most conversations shouldn't follow you home.</p>
+        <ul class="s-meta">
+          <li><span class="k">Trigger</span><span><b>One sitting, one thread.</b> Everything the task needs fits in your hands on the way in, and you won't want it again next Tuesday.</span></li>
+          <li><span class="k">Proficiency</span><span>Load up before you ask. "Here's the situation and three constraints — don't answer yet, tell me what else you'd need." One good opening turn beats a clever tenth one, every time.</span></li>
+          <li><span class="k">Failure mode</span><span>Using it for the same job every week, and paying the re-explanation tax on each pass.</span></li>
+        </ul>
+        <p class="s-scen"><b>Scenario.</b> Board paper to get through before tomorrow. Paste it in, ask what a sceptical director would go after, argue with the answer a bit, walk away with sharper notes. None of that needs to survive the night.</p>
+      </div>
+
+      <div class="s-card">
+        <div class="s-head">
+          <span class="s-name">Projects</span>
+          <span class="s-tool">Claude Projects</span>
+        </div>
+        <span class="s-shape">Shape · a standing brief</span>
+        <p class="s-role">Where context stops being something you carry in and starts being something that's already there.</p>
+        <p>A Project is a room with two things bolted down: a set of files, and standing instructions that apply to every conversation you have in it. Set the background once, and every new chat you open inside walks in already briefed. It's the difference between introducing yourself each time and simply being known.</p>
+        <ul class="s-meta">
+          <li><span class="k">Trigger</span><span><b>The third time you paste the same background in.</b> That's it. That's the signal, and it's a dependable one.</span></li>
+          <li><span class="k">Proficiency</span><span>Knowing what's shared and what isn't. Chats in a Project share the files and instructions, but they can't see each other's history — like colleagues briefed from the same pack who haven't compared notes. So you can run several threads at once without them bleeding into each other.</span></li>
+          <li><span class="k">Failure mode</span><span>Letting it become a junk drawer. Stale files genuinely make the answers worse — treat it as a briefing pack you keep tidy, not a shared drive you keep adding to.</span></li>
+        </ul>
+        <p class="s-scen"><b>Scenario.</b> A client you'll be working with all year. Their strategy, brand guide and last four reports sit in the knowledge base; the instructions carry their tone and the handful of things you must never claim on their behalf. Monday's pricing note and Thursday's campaign review are separate chats, and both know the client from the first sentence.</p>
+      </div>
+
+      <div class="s-card">
+        <div class="s-head">
+          <span class="s-name">Cowork</span>
+          <span class="s-tool">Claude Cowork</span>
+        </div>
+        <span class="s-shape">Shape · a job you hand over</span>
+        <p class="s-role">The real jump — from a conversation you drive to work that carries on without you.</p>
+        <p>This is where you stop typing to a chatbot and start briefing a capable temp. You point Cowork at a folder, tell it what you want, and it plans the steps, works through your actual files and hands back something finished. It shows you the plan before it starts, and you can lean in and redirect at any point — but the posture is different. You're reviewing the work, not watching the working. Sessions keep going when you shut the laptop, and you can put jobs on a schedule.</p>
+        <ul class="s-meta">
+          <li><span class="k">Trigger</span><span><b>Lots of steps, lots of files, and no reason for you to watch.</b> If explaining it takes less time than doing it, and the steps are mechanical, hand it over.</span></li>
+          <li><span class="k">Proficiency</span><span>Briefing someone who can't tap you on the shoulder. Say what "done" looks like, what to do when something's ambiguous, and what to leave well alone. Then actually read the plan before you approve it — cheapest checkpoint you'll ever get.</span></li>
+          <li><span class="k">Failure mode</span><span>Handing over something you can't check. A wrong assumption in a conversation gets caught on the next turn; a wrong assumption in a job compounds quietly through forty files before you see any of it.</span></li>
+        </ul>
+        <p class="s-scen"><b>Scenario.</b> A year of expense receipts in a folder, wanted as a categorised spreadsheet with quarterly totals. You describe the output, spell out the rules for the odd ones, approve the plan and go to your meeting. You come back to a file — and your job is checking it rather than building it.</p>
+      </div>
+
+      <div class="s-card">
+        <div class="s-head">
+          <span class="s-name">Code</span>
+          <span class="s-tool">Claude Code</span>
+        </div>
+        <span class="s-shape">Shape · something that has to run</span>
+        <p class="s-role">The one deliverable that can prove itself right.</p>
+        <p>When what you want is software, you want a room where it can be run and tested. Code works straight against a codebase — writing, running, breaking, fixing. And non-developers end up here more than they'd guess, because a fair chunk of what we call analysis is really a script wearing a spreadsheet's clothes.</p>
+        <ul class="s-meta">
+          <li><span class="k">Trigger</span><span><b>The output has to run.</b> Scripts, data pipelines, anything where "does this work?" has a real answer rather than an opinion.</span></li>
+          <li><span class="k">Proficiency</span><span>Letting the machine mark its own homework — properly. Ask for tests alongside the code, then judge it on whether it runs and gets the right answer, not on whether it reads convincingly. Plausible-looking code is the whole trap.</span></li>
+          <li><span class="k">Failure mode</span><span>Accepting code you've no way of assessing. If you can't tell working from broken, you've handed over the judgement as well — which is exactly what Discernment warns about.</span></li>
+        </ul>
+        <p class="s-scen"><b>Scenario.</b> That monthly reconciliation between two systems you've been doing by hand. Described once as a script, it turns into something that runs in seconds — and unlike an answer in a chat, you can point it at a month you already did correctly and see whether it agrees with you.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ PART 4 ============ -->
+  <section id="application-selector">
+    <span class="sec-num">03 — The Selector</span>
+    <h2>Working it through</h2>
+
+    <p>Context, then execution. Answer both and the room picks itself.</p>
+
+    <figure>
+      <div class="figframe router" id="application-router">
+        <p class="router-hint">Answer both. The recommendation updates as you go.</p>
+
+        <div class="q">
+          <span class="q-label">Question 1 — How long does the context need to live?</span>
+          <div class="opts two" data-group="ctx">
+            <button class="opt" data-val="once">This sitting only<small>everything travels with the task</small></button>
+            <button class="opt" data-val="ongoing">Across many sessions<small>same background, again and again</small></button>
+          </div>
+        </div>
+
+        <div class="q">
+          <span class="q-label">Question 2 — Who does the doing?</span>
+          <div class="opts" data-group="exec">
+            <button class="opt" data-val="steer">I steer each turn<small>a conversation</small></button>
+            <button class="opt" data-val="hand">I hand over the job<small>multi-step, unattended</small></button>
+            <button class="opt" data-val="run">The output must run<small>it's code</small></button>
+          </div>
+        </div>
+
+        <div class="verdict idle" id="application-verdict">
+          <p class="verdict-lead">Recommended surface</p>
+          <p class="verdict-surface" id="application-v-surface">Answer both questions above</p>
+          <p class="verdict-why" id="application-v-why">Delegation already worked this out. You're just reading it off.</p>
+          <p class="verdict-because" id="application-v-because"></p>
+        </div>
+      </div>
+      <figcaption>Figure 2 — The surface selector. <b>Interactive.</b> The same two Delegation questions from Figure 1, asked one after the other.</figcaption>
+    </figure>
+
+    <p>The useful part is where people go wrong, and they go wrong in the same direction almost every time — sliding back into a plain chat, because it's the room they know. Here are the four you'll recognise.</p>
+
+    <div class="mis">
+      <div class="mis-row mis-h">
+        <div class="mis-cell mis-h">Common instinct</div>
+        <div class="mis-cell mis-h">Better read</div>
+      </div>
+      <div class="mis-row">
+        <div class="mis-cell bad">"I'll just paste the brand guide in again." <em>Fifth time this month.</em></div>
+        <div class="mis-cell good">You're renting a hotel room by the year. <b>Projects.</b> Set the background down once and leave it there.</div>
+      </div>
+      <div class="mis-row">
+        <div class="mis-cell bad">"I'll get it to summarise these forty files, one at a time."</div>
+        <div class="mis-cell good">You've become the conveyor belt. <b>Cowork.</b> Describe the outcome, approve the plan, go and do something better.</div>
+      </div>
+      <div class="mis-row">
+        <div class="mis-cell bad">"Give me a formula for this, I'll paste it in and see what happens."</div>
+        <div class="mis-cell good">If it has to run, run it properly. <b>Code.</b> Something you can test beats something that looks right.</div>
+      </div>
+      <div class="mis-row">
+        <div class="mis-cell bad">"Let me set up a Project first, do this properly." <em>For one question.</em></div>
+        <div class="mis-cell good">The other direction, and it's just as real. <b>Chat.</b> Not everything earns a filing system.</div>
+      </div>
+    </div>
+
+    <p class="pull">You don't pay for this at the prompt. You pay for it in the room you walked into before you started typing.</p>
+  </section>
+
+  <!-- ============ PART 5 ============ -->
+  <section id="application-fourds">
+    <span class="sec-num">04 — The Consequence</span>
+    <h2>Where you work changes the other three Ds</h2>
+
+    <p>This is what makes picking a room a skill rather than a preference. The choice doesn't stay put inside Delegation — it runs downhill. What you describe, what you check, and what you're on the hook for all shift depending on where the work happens.</p>
+
+    <div class="app">
+      <div class="app-mark">D2</div>
+      <div>
+        <h3>Description changes shape</h3>
+        <p>In chat you describe as you go, adjusting when you see what comes back. In Cowork you describe once, up front, to someone who can't put their head round the door and check — that's a written brief, not a prompt. In a Project, most of the describing already happened when you set it up, which is exactly why the prompts inside can be so short.</p>
+        <p class="benefit"><b>In practice:</b> the further you step back, the more your description has to anticipate instead of react.</p>
+      </div>
+    </div>
+    <div class="app">
+      <div class="app-mark">D3</div>
+      <div>
+        <h3>Discernment starts checking something else</h3>
+        <p>In chat you're judging an answer. In Cowork you're judging the finished thing <em>and</em> how it got there, because a mistake in step two quietly infects everything after it. In Code you're judging whether it runs and returns the right result — the one place on this page where checking is genuinely objective rather than a matter of taste.</p>
+        <p class="benefit"><b>In practice:</b> the moment you stop watching each turn, you have to start reading the trail.</p>
+      </div>
+    </div>
+    <div class="app">
+      <div class="app-mark">D4</div>
+      <div>
+        <h3>Diligence climbs with autonomy</h3>
+        <p>A chat gives you text, and you read it before it goes anywhere near anyone. An agent reads and writes real files on your actual machine, which turns scope from an efficiency question into a safety one. Which folder it can see, whether the plan is sound, what a scheduled job is allowed to touch — those are all Diligence calls, and they land earlier than people expect.</p>
+        <p class="benefit"><b>In practice:</b> the further you delegate, the sooner you have to decide what you're willing to answer for.</p>
+      </div>
+    </div>
+
+    <p>Read those three together and there's a tidy rule in it. Moving right across the matrix buys you persistence and costs you tidying. Moving down buys you leverage and costs you checking. Both are good trades — as long as you know you're making them, which is really the whole argument.</p>
+  </section>
+
+  <!-- ============ CLOSER ============ -->
+  <div class="closer">
+    <p class="kicker">In closing</p>
+    <p>Same thread through all three pieces, really. The first mapped the ecosystem and found the value sitting in the application layer, which is where you work. The second argued that working there well is a set of competencies rather than a knack for phrasing things. This one lands on the most practical bit of the first competency: knowing which room to walk into. It's a small call, made before anything visible happens, and it quietly decides how much of the rest goes smoothly. Which is the slightly deflating punchline of the whole series — proficiency turns out to look less like knowing what to say, and more like knowing where to go and say it.</p>
+
+    <p class="footnote">Series: "From Stack to Skill" (the AI ecosystem), "From Skill to Practice" (the 4D framework as a relay), and this piece. The AI Fluency 4D Framework — Delegation, Description, Discernment, Diligence — was developed by Anthropic with Prof. Rick Dakan (Ringling College) and Prof. Joseph Feller (University College Cork), released under a Creative Commons licence. Product behaviour described here reflects Claude's Chat, Projects, Cowork and Code surfaces as at July 2026; capabilities and plan availability change, so treat the four shapes as the durable framework and the product names as the current instance.</p>
+  </div>
+
+</div>
+</article>
+
+<footer class="series-foot">
+  <div class="series-foot-inner" id="series-foot-inner"></div>
+</footer>
+
+<script>
+
+(function(){
+  var panes = Array.prototype.slice.call(document.querySelectorAll('.article-pane'));
+  var links = Array.prototype.slice.call(document.querySelectorAll('.nav-link'));
+  var order = panes.map(function(p){ return p.getAttribute('data-article'); });
+  var titles = {"overview": "From Stack to Skill \u2014 Understanding the AI Ecosystem and Becoming Fluent Within It", "fluency": "From Skill to Practice \u2014 Running the 4Ds as a Single Connected Workflow", "application": "From Practice to Proficiency \u2014 Choosing the Right Surface for the Work"};
+
+  function show(slug, push){
+    if(order.indexOf(slug) === -1){ slug = order[0]; }
+    panes.forEach(function(p){
+      p.classList.toggle('active', p.getAttribute('data-article') === slug);
+    });
+    links.forEach(function(l){
+      l.classList.toggle('active', l.getAttribute('data-target') === slug);
+    });
+    document.title = titles[slug] || document.title;
+    buildFoot(slug);
+    if(push && history.replaceState){
+      history.replaceState(null, '', '#' + slug);
+    }
+    window.scrollTo({top:0, behavior:'instant' in window ? 'auto' : 'auto'});
+  }
+
+  function buildFoot(slug){
+    var i = order.indexOf(slug);
+    var foot = document.getElementById('series-foot-inner');
+    foot.innerHTML = '';
+    var prev = i > 0 ? order[i-1] : null;
+    var next = i < order.length-1 ? order[i+1] : null;
+    foot.appendChild(cell('Previous', prev, 'prev'));
+    foot.appendChild(cell('Next', next, 'next'));
+  }
+
+  function cell(label, slug, cls){
+    var d = document.createElement('div');
+    d.style.flex = '1';
+    d.style.textAlign = cls === 'next' ? 'right' : 'left';
+    if(!slug){ return d; }
+    var s = document.createElement('div');
+    s.className = 'series-step';
+    s.textContent = label;
+    var a = document.createElement('a');
+    a.className = 'series-jump';
+    a.href = '#' + slug;
+    a.textContent = shortTitle(slug);
+    a.addEventListener('click', function(e){ e.preventDefault(); show(slug, true); });
+    d.appendChild(s); d.appendChild(a);
+    return d;
+  }
+
+  function shortTitle(slug){
+    var l = document.querySelector('.nav-link[data-target="'+slug+'"] .nav-label');
+    return l ? l.textContent : slug;
+  }
+
+  links.forEach(function(l){
+    l.addEventListener('click', function(e){
+      e.preventDefault();
+      show(l.getAttribute('data-target'), true);
+    });
+  });
+
+  window.addEventListener('hashchange', function(){
+    show((location.hash || '').replace('#',''), false);
+  });
+
+  show((location.hash || '').replace('#','') || order[0], false);
+})();
+
+</script>
+
+<script>
+(function(){
+var __root = document.getElementById('article-overview');
+if(!__root) return;
+function __root_gebi(id){ return __root.querySelector('#'+id); }
+
+(function(){
+  var DATA = {
+    energy: {
+      desc: "Nothing runs without power. AI data centres draw electricity on the scale of small cities, so generation, grid connection and cooling are the true roots of the stack.",
+      players: [
+        ["NextEra Energy","Largest renewables generator supplying data-centre load"],
+        ["Constellation Energy","Nuclear supply deals struck directly with hyperscalers"],
+        ["GE Vernova","Turbines and grid equipment behind the buildout"],
+        ["Schneider Electric","Power distribution and cooling systems inside the hall"],
+        ["Vertiv","Thermal management and backup power for AI racks"]
+      ]
+    },
+    chips: {
+      desc: "The silicon that does the maths. GPUs and specialised accelerators carry the heavy computation of training and running models — the most concentrated layer in the whole stack.",
+      players: [
+        ["NVIDIA","The dominant AI GPU maker; sets the pace for the layer"],
+        ["TSMC","Fabricates almost every leading-edge AI chip"],
+        ["AMD","Instinct accelerators, the principal challenger"],
+        ["Broadcom","Co-designs custom accelerators for the hyperscalers"],
+        ["ASML","Sole supplier of the EUV lithography machines upstream"]
+      ]
+    },
+    infra: {
+      desc: "The data centres, networking and cloud software that make thousands of chips behave as one machine. You rent this layer by the hour rather than buying it.",
+      players: [
+        ["Amazon Web Services","The largest cloud platform by a distance"],
+        ["Microsoft Azure","Cloud backbone for OpenAI and much of the enterprise"],
+        ["Google Cloud","Hyperscale compute plus its own TPU fleet"],
+        ["Oracle Cloud","Late entrant that won major AI training contracts"],
+        ["Equinix / Digital Realty","Colocation operators renting space and power"]
+      ]
+    },
+    models: {
+      desc: "The brains. Foundation models turn raw compute into capability — language, vision, code and reasoning. Training one at the frontier costs hundreds of millions, which is why so few organisations do it.",
+      players: [
+        ["OpenAI","GPT family; the most widely deployed frontier models"],
+        ["Anthropic","Claude family, with a safety-first research posture"],
+        ["Google DeepMind","Gemini, trained on Google's own TPU stack"],
+        ["Meta","Llama; the leading open-weight family"],
+        ["Mistral AI","European lab focused on efficient open models"]
+      ]
+    },
+    apps: {
+      desc: "The canopy — where value is realised and where you operate. Assistants, agents, domain platforms and embedded features. This is the layer nearly everyone touches, and the only one where your own skill changes the outcome.",
+      players: [
+        ["ChatGPT","The best-known general assistant"],
+        ["Claude","Assistant strong on long-document and code work"],
+        ["Microsoft Copilot","AI embedded across Office and Windows"],
+        ["GitHub Copilot","Coding assistant living inside the editor"],
+        ["Cursor","AI-native code editor for agentic development"],
+        ["Perplexity","Answer engine built on live search"],
+        ["Harvey / Abridge","Domain platforms for law and clinical notes"]
+      ]
+    }
+  };
+
+  function buildDetail(key){
+    var d = DATA[key];
+    var wrap = document.createElement('div');
+    wrap.className = 'layer-detail';
+    var inner = document.createElement('div');
+    inner.className = 'layer-detail-inner';
+
+    var p = document.createElement('p');
+    p.className = 'ld-desc';
+    p.innerHTML = d.desc;
+    inner.appendChild(p);
+
+    var cols = document.createElement('div');
+    cols.className = 'ld-cols';
+    var ul = document.createElement('ul');
+    ul.className = 'ld-list';
+    d.players.forEach(function(it){
+      var li = document.createElement('li');
+      li.innerHTML = '<b>'+it[0]+'</b><span>'+it[1]+'</span>';
+      ul.appendChild(li);
+    });
+    cols.appendChild(ul);
+    inner.appendChild(cols);
+
+    wrap.appendChild(inner);
+    return wrap;
+  }
+
+  var buttons = __root.querySelectorAll('#overview-cake .layer');
+  buttons.forEach(function(btn){
+    var key = btn.getAttribute('data-layer');
+    var detail = buildDetail(key);
+    btn.insertAdjacentElement('afterend', detail);
+
+    btn.addEventListener('click', function(){
+      var isOpen = btn.classList.contains('open');
+      // close all
+      buttons.forEach(function(b){
+        b.classList.remove('open');
+        b.setAttribute('aria-expanded','false');
+        var d = b.nextElementSibling;
+        if(d && d.classList.contains('layer-detail')) d.style.height = '0px';
+      });
+      if(!isOpen){
+        btn.classList.add('open');
+        btn.setAttribute('aria-expanded','true');
+        detail.style.height = detail.firstElementChild.offsetHeight + 'px';
+      }
+    });
+  });
+})();
+
+})();
+
+(function(){
+var __root = document.getElementById('article-fluency');
+if(!__root) return;
+function __root_gebi(id){ return __root.querySelector('#'+id); }
+
+(function(){
+  /* ---- smooth-scroll spine ---- */
+  __root.querySelectorAll('.spine-link').forEach(function(b){
+    b.addEventListener('click',function(){
+      var el=__root_gebi(b.getAttribute('data-go'));
+      if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+
+  /* ---- the router ---- */
+  var state={mode:null,exposure:null};
+
+  var DESC={
+    automation:{d:'Automation',t:'Describe tightly',b:'Pin the output shape, format and constraints. Lead with product description and give one example of “good”.'},
+    augmentation:{d:'Augmentation',t:'Describe the process',b:'Set the role and the thinking method, then iterate. Expect a back-and-forth, not a one-shot answer.'},
+    agency:{d:'Agency',t:'Describe the contract',b:'Specify the goal, the guardrails and the stop conditions. Say what success is and when to hand control back.'}
+  };
+  var DISC={
+    automation:{t:'Spot-check the product',b:'Verify a sample against known truth, confirm the format, hunt for invented numbers. Reasoning rarely needs inspecting.'},
+    augmentation:{t:'Interrogate the process',b:'Read the reasoning, not just the conclusion. Did it follow your method? Did it skip a step or smuggle an assumption?'},
+    agency:{t:'Audit the trail',b:'Evaluate the whole trajectory. Check what it touched and every point it made a call — sample the actions, not just the outcome.'}
+  };
+  var DILI={
+    l1:{t:'Level 1 · Personal',b:'A sanity read. Use freely; verify anything you carry forward.',c:'#7C8A66'},
+    l2:{t:'Level 2 · Internal',b:'Verify key facts and figures. Be transparent that AI was involved so colleagues can weight it.',c:'#B08A4F'},
+    l3:{t:'Level 3 · External',b:'Full fact-check, human sign-off, no confidential data used, disclosure where it matters.',c:'#C15F3C'},
+    l4:{t:'Level 4 · Regulated',b:'All of the above, plus qualified expert review and documented accountability. AI assists, never authors of record.',c:'#9A3B28'}
+  };
+  var DEL={
+    automation:'You scoped a bounded task and handed it over whole.',
+    augmentation:'You’re working the problem with the AI as a collaborator.',
+    agency:'You set a goal and let the AI act across steps you won’t all see.'
+  };
+  var SURF={
+    automation:{name:'Chat assistant, or an agentic workspace if it spans many steps',tool:'Claude chat · Cowork for multi-step'},
+    augmentation:{name:'Chat assistant',tool:'Claude chat — a collaborator you drive turn by turn'},
+    agency:{name:'Agentic workspace',tool:'Claude Cowork — set the goal, supervise lightly'}
+  };
+
+  function render(){
+    var out=__root_gebi('fluency-routerOut');
+    if(!state.mode || !state.exposure){
+      out.innerHTML='<div class="ro-empty">Make both choices to generate your plan.</div>';
+      return;
+    }
+    var de=DEL[state.mode];
+    var ds=DESC[state.mode];
+    var di=DISC[state.mode];
+    var dg=DILI[state.exposure];
+    var sf=SURF[state.mode];
+
+    out.innerHTML=
+      '<div class="ro-surface"><span class="rsl">Surface →</span><span class="rsv"><b>'+sf.name+'.</b> '+sf.tool+'</span></div>' +
+      cell('Delegation','01', '<strong>Mode set.</strong> '+de) +
+      cell('Description','02', '<strong>'+ds.t+'.</strong> '+ds.b) +
+      cell('Discernment','03', '<strong>'+di.t+'.</strong> '+di.b) +
+      cellDili(dg);
+  }
+  function cell(name,n,val){
+    return '<div class="ro-cell"><div class="roD"><span class="n">'+n+'</span>'+name+'</div><div class="roVal">'+val+'</div></div>';
+  }
+  function cellDili(dg){
+    return '<div class="ro-cell"><div class="roD"><span class="n">04</span>Diligence</div><div class="roVal"><strong style="color:'+dg.c+'">'+dg.t+'.</strong> '+dg.b+'</div></div>';
+  }
+
+  __root.querySelectorAll('#fluency-router .chips').forEach(function(grp){
+    var key=grp.getAttribute('data-group');
+    grp.querySelectorAll('.chip').forEach(function(chip){
+      chip.addEventListener('click',function(){
+        grp.querySelectorAll('.chip').forEach(function(c){c.classList.remove('on');});
+        chip.classList.add('on');
+        state[key]=chip.getAttribute('data-val');
+        render();
+      });
+    });
+  });
+})();
+
+})();
+
+(function(){
+var __root = document.getElementById('article-application');
+if(!__root) return;
+function __root_gebi(id){ return __root.querySelector('#'+id); }
+
+(function(){
+  var state = {ctx:null, exec:null};
+
+  var RESULT = {
+    'once|steer': {
+      s:'Claude Chat',
+      why:'One sitting, you calling each turn. Bring it in, work it over, close the window.',
+      because:'Nothing here needs to outlive the conversation, so setting up a workspace would just be furniture you never use again.'
+    },
+    'ongoing|steer': {
+      s:'Claude Projects',
+      why:'Same background over and over, but you still want the wheel.',
+      because:'Put the files and instructions down once and every chat you open inside walks in already briefed — and separate threads stay separate.'
+    },
+    'once|hand': {
+      s:'Cowork',
+      why:'A one-off with real steps in it. Scope it, approve the plan, wander off.',
+      because:'The work is mechanical and there are lots of steps, so watching each one adds nothing. Check the result instead.'
+    },
+    'ongoing|hand': {
+      s:'Cowork, run inside a Project',
+      why:'A recurring job against a background that never changes — the best combination on this matrix.',
+      because:'The Project holds what stays the same; Cowork does the work against it. This is also where putting jobs on a schedule starts to pay off.'
+    },
+    'once|run': {
+      s:'Claude Code',
+      why:'It has to run, so use the room where it can actually be run.',
+      because:'This is the one case where "is it right?" has a real answer. Ask for tests and judge it on behaviour, not on how it reads.'
+    },
+    'ongoing|run': {
+      s:'Claude Code',
+      why:'Software against a codebase you keep coming back to — the repo is the memory.',
+      because:'A codebase already is persistent context, so the first question answers itself here.'
+    }
+  };
+
+  var vWrap = __root_gebi('application-verdict');
+  var vS = __root_gebi('application-v-surface');
+  var vW = __root_gebi('application-v-why');
+  var vB = __root_gebi('application-v-because');
+
+  function render(){
+    if(!state.ctx || !state.exec){
+      vWrap.classList.add('idle');
+      vS.textContent = 'Answer both questions above';
+      vW.textContent = "Delegation already worked this out. You're just reading it off.";
+      vB.innerHTML = '';
+      return;
+    }
+    var r = RESULT[state.ctx + '|' + state.exec];
+    vWrap.classList.remove('idle');
+    vS.textContent = r.s;
+    vW.textContent = r.why;
+    vB.innerHTML = '<b>Why:</b> ' + r.because;
+  }
+
+  __root.querySelectorAll('#application-router .opts').forEach(function(group){
+    var key = group.getAttribute('data-group');
+    group.querySelectorAll('.opt').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        group.querySelectorAll('.opt').forEach(function(b){ b.classList.remove('on'); });
+        btn.classList.add('on');
+        state[key] = btn.getAttribute('data-val');
+        render();
+      });
+    });
+  });
+
+  render();
+})();
+
+})();
+</script>
+</body>
+</html>
